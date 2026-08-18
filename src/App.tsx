@@ -23,7 +23,7 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [savedOnly, setSavedOnly] = useState(false)
   const [saved, setSaved] = usePersistentState<string[]>('linkit:saved', [])
-  const [mode, setMode] = usePersistentState<ViewMode>('linkit:view', 'compact')
+  const [mode, setMode] = usePersistentState<ViewMode>('linkit:view', 'card')
 
   const visible = useMemo(() => {
     const ranked = rankLinks(links, sort, votes)

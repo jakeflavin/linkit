@@ -108,10 +108,11 @@ gutter; a hairline separates the gutter from the body.
 
 Two densities, chosen by the reader and remembered:
 
-- **Compact** (default): a 76px square left of the title, 56px on a phone.
-  Roughly 18 links stay on screen.
-- **Card**: a full-width 16:9 hero under the domain line, capped at 320px
-  tall.
+- **Card** (default): a full-width 16:9 hero under the domain line, capped at
+  320px tall. The board is a place to find something worth opening, so the
+  image leads.
+- **Compact**: a 76px square left of the title, 56px on a phone. Roughly 18
+  links stay on screen, for reading down the board rather than browsing it.
 
 Rules:
 

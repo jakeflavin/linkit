@@ -20,8 +20,9 @@ commit.
 ## Preview images
 
 - Each link stores the featured image (`og:image`) found when it was posted.
-- The feed has two densities, remembered per browser: **compact**, a 76px
-  thumbnail beside the title, and **card**, a full-width 16:9 hero.
+- The feed has two densities, remembered per browser: **card**, a full-width
+  16:9 hero, and **compact**, a 76px thumbnail beside the title. Card is the
+  default.
 - A card row whose image is missing or fails to load renders as a compact row
   instead, so the feed never grows empty boxes.
 - Links with no image — the common case — show a tile with the site's favicon.
