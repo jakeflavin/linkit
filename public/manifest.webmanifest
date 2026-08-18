@@ -2,12 +2,21 @@
   "name": "linkit — the cool links board",
   "short_name": "linkit",
   "description": "An anonymous, community-run board of links worth keeping.",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#dae0e6",
   "theme_color": "#ff4500",
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
