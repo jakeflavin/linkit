@@ -1089,28 +1089,34 @@ code {
   }
 
   /*
-   * Wraps onto a second line rather than scrolling sideways. A horizontal
-   * strip inside a page that already scrolls vertically is awkward to work
-   * on a touch screen, and it hides whatever does not fit.
+   * Two rows of three rather than a sideways scroll, which hides whatever
+   * does not fit and is awkward to work with a thumb. Six controls into a
+   * 3x2 grid divides evenly, so every cell is filled and the rows line up —
+   * wrapping instead left Saved and the toggle marooned either side of a
+   * 200px hole. Three to a row also leaves room to keep the icons.
    */
   .sort-bar {
-    flex-wrap: wrap;
-    row-gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 8px;
   }
 
   .sort-tab {
-    flex: none;
+    justify-content: center;
+    padding: 0 6px;
   }
 
-  /* Saved follows Rising instead of being pushed to an edge; the auto margin
-     would otherwise strand it alone on its own line. */
   .sort-tab.saved {
     margin-left: 0;
   }
 
-  /* Sits at the end of whichever line it lands on. */
+  /* Last cell of the second row, sitting on the grid's right edge. */
   .view-toggle {
-    margin-left: auto;
+    justify-self: end;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
   }
 
   /* iOS zooms any input under 16px on focus. */

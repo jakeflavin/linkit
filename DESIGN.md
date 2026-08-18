@@ -95,11 +95,13 @@ The page is Reddit's two-column feed, centred:
 - Below **1000px** the rail stops being sticky and stacks under the feed.
 - Below **640px** the wordmark and the rank column both go — the arrows are
   worth more than either — and inputs hold 16px so iOS does not zoom on focus.
-- **The sort bar wraps rather than scrolling sideways.** A horizontal strip
-  inside a page that already scrolls vertically is awkward to work with a
-  thumb, and anything past the edge is invisible. It only wraps when it has
-  to: at 375px the four sorts hold one line and Saved drops to a second, at
-  320px Rising drops down with it.
+- **The sort bar becomes a 3x2 grid rather than scrolling sideways.** A
+  horizontal strip inside a page that already scrolls vertically is awkward to
+  work with a thumb, and anything past the edge is invisible. Six controls
+  divide evenly into two rows of three, so every cell is filled and the rows
+  line up — letting them wrap instead left Saved and the view toggle marooned
+  either side of a 200px hole. Three to a row also leaves enough width to keep
+  the sort icons, which four to a row does not at 320px.
 
 ### The row
 
