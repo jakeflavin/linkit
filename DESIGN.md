@@ -104,7 +104,33 @@ The page is Reddit's two-column feed, centred:
 The rank and vote columns share the `--rail` background so they read as one
 gutter; a hairline separates the gutter from the body.
 
-## 5. Component recipes
+## 5. Preview images
+
+Two densities, chosen by the reader and remembered:
+
+- **Compact** (default): a 76px square left of the title, 56px on a phone.
+  Roughly 18 links stay on screen.
+- **Card**: a full-width 16:9 hero under the domain line, capped at 320px
+  tall.
+
+Rules:
+
+- **A card row without a usable image falls back to a compact row.** Most
+  links have no `og:image`, and plenty of the ones that do serve an image that
+  404s or blocks hotlinking. An empty 16:9 box is worse than no box, so card
+  view is a mix: heroes where there is something to show, compact rows where
+  there is not.
+- **The fallback tile is part of the design, not an error state.** It is the
+  site's favicon centred on a `--surface-2` tile with the same border and
+  radius as a real image. It should read as deliberate.
+- Images are cropped with `object-fit: cover` into a fixed box, so a row's
+  height never depends on what a site happens to serve.
+- Previews are `loading="lazy"` and `referrer-policy: no-referrer` — the
+  latter because some hosts serve a placeholder or a 403 to foreign referrers.
+- Only https images are stored. An http one would make the whole page mixed
+  content.
+
+## 6. Component recipes
 
 - **Vote arrows** are `lucide-react`'s `ArrowBigUp` / `ArrowBigDown`, 22px,
   stroke 1.75. A cast vote fills the glyph with `currentColor` and tints the
@@ -118,14 +144,14 @@ gutter; a hairline separates the gutter from the body.
 - **Buttons**: `.btn.primary` is a filled `--accent` pill; `.btn.ghost` is the
   same pill outlined. Row actions are borderless and grey until hovered.
 
-## 6. Voice
+## 7. Voice
 
 Sentence case everywhere. Labels say what the control does. The copy is
 plain and slightly dry — "Post a cool link", "on thin ice", "The board is
 empty", "only as good as what you post". No exclamation marks, no
 encouragement, no product-speak.
 
-## 7. Accessibility
+## 8. Accessibility
 
 - Every icon-only button carries an `aria-label`; every toggle carries
   `aria-pressed`.
@@ -133,5 +159,8 @@ encouragement, no product-speak.
   so a screen reader and a sighted reader hear the same thing.
 - Focus is a 2px `--accent` ring at 2px offset, never removed.
 - The score is `aria-live="polite"` so a vote is announced.
+- Preview images are decorative: they are `aria-hidden`, carry an empty alt,
+  and their link is removed from the tab order, because the title right beside
+  them already goes to the same place.
 - Both themes are verified on every UI change. So are 375px, 1000px, and
   1400px.

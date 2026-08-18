@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { AppBar } from './components/AppBar.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { SortBar } from './components/SortBar.tsx'
+import { ViewToggle } from './components/ViewToggle.tsx'
 import { SubmitCard } from './components/SubmitCard.tsx'
 import { LinkRow } from './components/LinkRow.tsx'
 import { Banner, EmptyFeed, FeedSkeleton } from './components/Notice.tsx'
@@ -11,7 +12,7 @@ import { useTheme } from './hooks/useTheme.ts'
 import { usePersistentState } from './hooks/usePersistentState.ts'
 import { matchesQuery, rankLinks } from './lib/ranking.ts'
 import { isConfigured } from './firebase.ts'
-import type { SortKey } from './lib/types.ts'
+import type { SortKey, ViewMode } from './lib/types.ts'
 
 export default function App() {
   const { theme, toggle } = useTheme()
@@ -22,6 +23,7 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [savedOnly, setSavedOnly] = useState(false)
   const [saved, setSaved] = usePersistentState<string[]>('linkit:saved', [])
+  const [mode, setMode] = usePersistentState<ViewMode>('linkit:view', 'compact')
 
   const visible = useMemo(() => {
     const ranked = rankLinks(links, sort, votes)
@@ -59,7 +61,7 @@ export default function App() {
 
           <SubmitCard
             disabled={!isConfigured}
-            onSubmit={(url, title, chosen) => submit({ url, title, category: chosen })}
+            onSubmit={submit}
           />
 
           <SortBar
@@ -71,6 +73,7 @@ export default function App() {
             savedOnly={savedOnly}
             savedCount={saved.length}
             onToggleSaved={() => setSavedOnly((on) => !on)}
+            viewToggle={<ViewToggle mode={mode} onMode={setMode} />}
           />
 
           {category !== null && (
@@ -93,6 +96,7 @@ export default function App() {
                   link={link}
                   rank={index + 1}
                   saved={saved.includes(link.id)}
+                  mode={mode}
                   onVote={vote}
                   onToggleSave={toggleSave}
                   onPickCategory={pickCategory}

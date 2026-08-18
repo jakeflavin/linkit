@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Loader2, Plus } from 'lucide-react'
 import { CATEGORIES, CATEGORY_IDS } from '../data/categories.ts'
-import { validateDraft, type DraftErrors } from '../lib/url.ts'
+import { normalizeUrl, validateDraft, type DraftErrors } from '../lib/url.ts'
+import { fetchPreview } from '../lib/preview.ts'
+import { Thumb } from './Thumb.tsx'
+import { domainOf } from '../lib/url.ts'
+import type { LinkDraft } from '../lib/types.ts'
 
 interface SubmitCardProps {
-  onSubmit: (url: string, title: string, category: string) => Promise<void>
+  onSubmit: (draft: LinkDraft) => Promise<void>
   disabled: boolean
 }
+
+/** Long enough that the unfurl is not fired off on every keystroke. */
+const LOOKUP_DELAY_MS = 600
 
 /** The compose box at the top of the feed — Reddit's "Create post" row. */
 export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
@@ -16,13 +23,50 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
   const [category, setCategory] = useState('')
   const [errors, setErrors] = useState<DraftErrors>({})
   const [sending, setSending] = useState(false)
+  const [image, setImage] = useState<string | null>(null)
+  const [looking, setLooking] = useState(false)
+
+  const timer = useRef<number | undefined>(undefined)
+  /** Guards against a slow lookup landing after a newer one. */
+  const lookupFor = useRef('')
 
   const reset = () => {
+    window.clearTimeout(timer.current)
+    lookupFor.current = ''
     setUrl('')
     setTitle('')
     setCategory('')
     setErrors({})
+    setImage(null)
+    setLooking(false)
     setOpen(false)
+  }
+
+  /**
+   * Looks the URL up shortly after typing stops, to fill in the image and —
+   * only if the title is still untouched — the title.
+   */
+  const scheduleLookup = (value: string) => {
+    window.clearTimeout(timer.current)
+    setImage(null)
+
+    const normalized = normalizeUrl(value)
+    if (!normalized) {
+      setLooking(false)
+      return
+    }
+
+    setLooking(true)
+    timer.current = window.setTimeout(async () => {
+      lookupFor.current = normalized
+      const preview = await fetchPreview(normalized)
+      if (lookupFor.current !== normalized) return
+
+      setLooking(false)
+      setImage(preview.image)
+      // Never overwrite what the poster has typed.
+      if (preview.title) setTitle((current) => (current.trim() ? current : preview.title!))
+    }, LOOKUP_DELAY_MS)
   }
 
   const submit = async (event: React.FormEvent) => {
@@ -34,7 +78,7 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
 
     setSending(true)
     try {
-      await onSubmit(url, title, category)
+      await onSubmit({ url, title, category, image })
       reset()
     } catch (cause) {
       setErrors({ url: cause instanceof Error ? cause.message : 'That did not post.' })
@@ -64,12 +108,31 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
         <input
           className={`field-input${errors.url ? ' is-bad' : ''}`}
           value={url}
-          onChange={(event) => setUrl(event.target.value)}
+          onChange={(event) => {
+            setUrl(event.target.value)
+            setErrors((previous) => ({ ...previous, url: undefined }))
+            scheduleLookup(event.target.value)
+          }}
           placeholder="https://example.com/something-good"
           autoFocus
         />
         {errors.url && <span className="field-error">{errors.url}</span>}
       </label>
+
+      {(looking || image) && (
+        <div className="compose-preview">
+          {looking ? (
+            <div className="thumb thumb-compact is-fallback">
+              <Loader2 className="thumb-glyph spin" size={20} strokeWidth={2} />
+            </div>
+          ) : (
+            <Thumb image={image} domain={domainOf(normalizeUrl(url) ?? '')} mode="compact" />
+          )}
+          <span className="compose-preview-note">
+            {looking ? 'Looking up the page…' : 'Preview image found'}
+          </span>
+        </div>
+      )}
 
       <label className="field">
         <span className="field-label">Title</span>

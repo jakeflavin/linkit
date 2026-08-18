@@ -20,9 +20,11 @@ service cloud.firestore {
     }
 
     function wellFormedLink(link) {
-      return link.keys().hasOnly(['url', 'title', 'domain', 'category', 'createdAt', 'ups', 'downs'])
+      return link.keys().hasOnly(['url', 'title', 'domain', 'category', 'createdAt', 'ups', 'downs', 'image'])
         && link.keys().hasAll(['url', 'title', 'domain', 'category', 'createdAt', 'ups', 'downs'])
         && isUrl(link.url)
+        // A preview is optional: plenty of pages have no og:image.
+        && (!('image' in link) || link.image == null || isUrl(link.image))
         && link.title is string && link.title.size() > 0 && link.title.size() <= 300
         && link.domain is string && link.domain.size() > 0 && link.domain.size() <= 253
         && link.category is string && link.category.size() <= 40
@@ -47,6 +49,7 @@ service cloud.firestore {
         && after.domain == before.domain
         && after.category == before.category
         && after.createdAt == before.createdAt
+        && after.get('image', null) == before.get('image', null)
         && after.ups >= 0 && after.downs >= 0
         && (after.ups - before.ups) >= -1 && (after.ups - before.ups) <= 1
         && (after.downs - before.downs) >= -1 && (after.downs - before.downs) <= 1

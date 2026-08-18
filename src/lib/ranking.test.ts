@@ -22,6 +22,7 @@ function link(over: Partial<Link> & { id: string }): Link {
     createdAt: NOW,
     ups: 0,
     downs: 0,
+    image: null,
     ...over,
   }
 }

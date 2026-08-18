@@ -14,9 +14,17 @@ interface SortBarProps {
   savedOnly: boolean
   savedCount: number
   onToggleSaved: () => void
+  viewToggle: React.ReactNode
 }
 
-export function SortBar({ sort, onSort, savedOnly, savedCount, onToggleSaved }: SortBarProps) {
+export function SortBar({
+  sort,
+  onSort,
+  savedOnly,
+  savedCount,
+  onToggleSaved,
+  viewToggle,
+}: SortBarProps) {
   return (
     <div className="sort-bar" role="tablist" aria-label="Sort links">
       {TABS.map(({ key, label, Icon }) => (
@@ -42,6 +50,8 @@ export function SortBar({ sort, onSort, savedOnly, savedCount, onToggleSaved }: 
         Saved
         {savedCount > 0 && <span className="sort-count">{savedCount}</span>}
       </button>
+
+      {viewToggle}
     </div>
   )
 }

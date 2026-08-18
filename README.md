@@ -58,13 +58,25 @@ scripts/seed.mjs       emulator fixtures
 ## Data model
 
 ```
-links/{linkId}                  url, title, domain, category, createdAt, ups, downs
+links/{linkId}                  url, title, domain, category, createdAt, ups, downs, image
 links/{linkId}/votes/{voterId}  dir (1 | -1), voter, at
 ```
 
 Sorting, filtering, and search all happen on the client over one live
 subscription — the board is a curated list, not a firehose, so it needs no
 composite indexes and re-ranks the instant a vote lands.
+
+## Preview images
+
+A browser cannot read another origin's `og:` tags and linkit has no server, so
+`lib/preview.ts` unfurls a link through Microlink when it is posted and stores
+the result on the document. That is a third-party dependency with a per-IP
+daily quota, which is why it runs once per post and never on read — the quota
+lands on each submitter's own IP rather than on whoever opens the feed. A
+failed lookup is silent: the link posts without a preview.
+
+Links with no image fall back to a favicon tile, and card view quietly becomes
+compact view for them, so a missing image is never an empty box.
 
 ## How moderation works
 

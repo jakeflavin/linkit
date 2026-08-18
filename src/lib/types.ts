@@ -11,6 +11,8 @@ export interface Link {
   createdAt: number
   ups: number
   downs: number
+  /** og:image, resolved once when the link was posted. Null when it has none. */
+  image: string | null
 }
 
 /** A link plus the values every list view derives from it. */
@@ -29,4 +31,8 @@ export interface LinkDraft {
   url: string
   title: string
   category: string
+  image: string | null
 }
+
+/** How densely the feed draws its rows. */
+export type ViewMode = 'compact' | 'card'

@@ -56,6 +56,8 @@ function toLink(snap: QueryDocumentSnapshot<DocumentData>): Link {
     createdAt: typeof d.createdAt?.toMillis === 'function' ? d.createdAt.toMillis() : Date.now(),
     ups: typeof d.ups === 'number' ? d.ups : 0,
     downs: typeof d.downs === 'number' ? d.downs : 0,
+    // Links posted before previews existed simply have none.
+    image: typeof d.image === 'string' ? d.image : null,
   }
 }
 
@@ -116,6 +118,7 @@ export async function submitLink(draft: LinkDraft): Promise<string> {
     createdAt: serverTimestamp(),
     ups: 1,
     downs: 0,
+    image: draft.image,
   })
 
   // Recorded separately so the submitter's arrow shows as already cast.
