@@ -28,18 +28,20 @@ export function AppBar({ query, onQuery, theme, onToggleTheme }: AppBarProps) {
           />
         </label>
 
-        <button
-          type="button"
-          className="icon-btn"
-          onClick={onToggleTheme}
-          aria-label={theme === 'dark' ? 'Use light theme' : 'Use dark theme'}
-        >
-          {theme === 'dark' ? (
-            <Sun size={18} strokeWidth={2} />
-          ) : (
-            <Moon size={18} strokeWidth={2} />
-          )}
-        </button>
+        <div className="appbar-actions">
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={onToggleTheme}
+            aria-label={theme === 'dark' ? 'Use light theme' : 'Use dark theme'}
+          >
+            {theme === 'dark' ? (
+              <Sun size={18} strokeWidth={2} />
+            ) : (
+              <Moon size={18} strokeWidth={2} />
+            )}
+          </button>
+        </div>
       </div>
     </header>
   )

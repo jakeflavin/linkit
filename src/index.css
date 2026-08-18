@@ -135,16 +135,35 @@ code {
   align-items: center;
   gap: 16px;
   height: 100%;
+  /* Matches .page exactly, so the actions land on the sidebar's right edge. */
   max-width: calc(var(--feed-width) + var(--rail-width) + var(--gutter) + 48px);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/*
+ * The brand and the actions are equal flexible sides, so the search sits in
+ * the true centre of the bar however wide either of them gets. The actions
+ * end flush with the bar's content edge, which is the same edge the sidebar
+ * below ends on.
+ */
+.brand,
+.appbar-actions {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: none;
+}
+
+.appbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
 }
 
 .brand-mark {
@@ -180,9 +199,8 @@ code {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
+  flex: 0 1 560px;
   min-width: 0;
-  max-width: 560px;
   height: 36px;
   padding: 0 12px;
   background: var(--surface-2);
@@ -996,6 +1014,12 @@ code {
     max-width: var(--feed-width);
   }
 
+  /* The page narrows to the feed here, so the bar has to narrow with it or
+     the actions stop lining up with the column below. */
+  .appbar-inner {
+    max-width: var(--feed-width);
+  }
+
   /* The rail becomes a footer section rather than disappearing. */
   .sidebar {
     position: static;
@@ -1007,13 +1031,25 @@ code {
     padding: 12px 8px 32px;
   }
 
+  /* Same 8px gutter the page uses here, so the brand and the theme toggle
+     line up with the edges of the cards below them. */
   .appbar-inner {
-    padding: 0 12px;
+    padding: 0 8px;
     gap: 10px;
   }
 
   .brand-word {
     display: none;
+  }
+
+  /* No room to reserve equal sides here — the search takes what is left. */
+  .brand,
+  .appbar-actions {
+    flex: 0 0 auto;
+  }
+
+  .search {
+    flex: 1 1 auto;
   }
 
   .row-compact {
