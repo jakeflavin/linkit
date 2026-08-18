@@ -94,8 +94,12 @@ The page is Reddit's two-column feed, centred:
   How it works.
 - Below **1000px** the rail stops being sticky and stacks under the feed.
 - Below **640px** the wordmark and the rank column both go — the arrows are
-  worth more than either — the sort bar scrolls horizontally, and inputs hold
-  16px so iOS does not zoom on focus.
+  worth more than either — and inputs hold 16px so iOS does not zoom on focus.
+- **The sort bar wraps rather than scrolling sideways.** A horizontal strip
+  inside a page that already scrolls vertically is awkward to work with a
+  thumb, and anything past the edge is invisible. It only wraps when it has
+  to: at 375px the four sorts hold one line and Saved drops to a second, at
+  320px Rising drops down with it.
 
 ### The row
 

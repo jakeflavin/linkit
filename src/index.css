@@ -1088,21 +1088,27 @@ code {
     font-size: 16px;
   }
 
+  /*
+   * Wraps onto a second line rather than scrolling sideways. A horizontal
+   * strip inside a page that already scrolls vertically is awkward to work
+   * on a touch screen, and it hides whatever does not fit.
+   */
   .sort-bar {
-    overflow-x: auto;
-    scrollbar-width: none;
+    flex-wrap: wrap;
+    row-gap: 6px;
   }
 
   .sort-tab {
     flex: none;
   }
 
-  /* The strip scrolls here, so Saved follows Rising instead of being
-     pushed to an edge the reader has to hunt for. */
+  /* Saved follows Rising instead of being pushed to an edge; the auto margin
+     would otherwise strand it alone on its own line. */
   .sort-tab.saved {
     margin-left: 0;
   }
 
+  /* Sits at the end of whichever line it lands on. */
   .view-toggle {
     margin-left: auto;
   }
