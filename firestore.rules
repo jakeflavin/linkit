@@ -1,0 +1,79 @@
+rules_version = '2';
+
+// linkit has no accounts. Anyone may read, post, and vote — the rules exist
+// to keep the data well-formed and to make the tallies expensive to forge,
+// not to identify anyone.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The one score at which the community has voted a link off the board.
+    // Kept in step with REMOVAL_SCORE in src/lib/ranking.ts.
+    function removalScore() { return -5; }
+
+    function score(link) { return link.ups - link.downs; }
+
+    function isUrl(value) {
+      return value is string
+        && value.size() > 8
+        && value.size() < 2000
+        && value.matches('https://[^ ]+');
+    }
+
+    function wellFormedLink(link) {
+      return link.keys().hasOnly(['url', 'title', 'domain', 'category', 'createdAt', 'ups', 'downs'])
+        && link.keys().hasAll(['url', 'title', 'domain', 'category', 'createdAt', 'ups', 'downs'])
+        && isUrl(link.url)
+        && link.title is string && link.title.size() > 0 && link.title.size() <= 300
+        && link.domain is string && link.domain.size() > 0 && link.domain.size() <= 253
+        && link.category is string && link.category.size() <= 40
+        && link.createdAt == request.time
+        && link.ups == 1
+        && link.downs == 0;
+    }
+
+    // A vote may only nudge one tally by one, and may never rewrite the post
+    // itself. Combined with the client transaction, a tally cannot drift from
+    // its votes without someone deliberately crafting requests.
+    function isVoteUpdate(before, after) {
+      return after.keys().hasOnly(before.keys())
+        && after.url == before.url
+        && after.title == before.title
+        && after.domain == before.domain
+        && after.category == before.category
+        && after.createdAt == before.createdAt
+        && after.ups >= 0 && after.downs >= 0
+        && (after.ups - before.ups) >= -1 && (after.ups - before.ups) <= 1
+        && (after.downs - before.downs) >= -1 && (after.downs - before.downs) <= 1
+        && (after.ups != before.ups || after.downs != before.downs)
+        // Exactly one tally moves per vote.
+        && (after.ups == before.ups || after.downs == before.downs);
+    }
+
+    match /links/{linkId} {
+      allow read: if true;
+      allow create: if wellFormedLink(request.resource.data);
+      allow update: if isVoteUpdate(resource.data, request.resource.data);
+
+      // Deletion is the community's, not an author's: a link can only be
+      // removed once its score has actually reached the threshold.
+      allow delete: if score(resource.data) <= removalScore();
+
+      match /votes/{voterId} {
+        allow read: if true;
+
+        // The document id is the voter id, so a voter gets exactly one vote
+        // per link and can only write under their own id.
+        allow write: if request.resource == null
+          || (request.resource.data.voter == voterId
+              && request.resource.data.dir in [1, -1]
+              && request.resource.data.keys().hasOnly(['dir', 'voter', 'at']));
+      }
+    }
+
+    // A collection-group query is matched by path, not by the rule above, so
+    // restoring "which links have I voted on" needs its own read grant.
+    match /{path=**}/votes/{voterId} {
+      allow read: if true;
+    }
+  }
+}
