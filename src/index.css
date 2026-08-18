@@ -131,6 +131,7 @@ code {
 }
 
 .appbar-inner {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -142,26 +143,25 @@ code {
 }
 
 /*
- * The brand and the actions are equal flexible sides, so the search sits in
- * the true centre of the bar however wide either of them gets. The actions
- * end flush with the bar's content edge, which is the same edge the sidebar
- * below ends on.
+ * The brand and the actions each take exactly the room they need; the actions
+ * are pushed to the bar's content edge, which is the edge the sidebar below
+ * ends on. The search is centred independently of both (see .search), because
+ * sharing a flex line with two sides of different widths either pulls it off
+ * centre or squeezes the wordmark to nothing.
  */
 .brand,
 .appbar-actions {
-  flex: 1 1 0;
-  min-width: 0;
+  flex: none;
+  display: flex;
+  align-items: center;
 }
 
 .brand {
-  display: flex;
-  align-items: center;
   gap: 8px;
 }
 
 .appbar-actions {
-  display: flex;
-  align-items: center;
+  margin-left: auto;
   justify-content: flex-end;
   gap: 4px;
 }
@@ -169,6 +169,7 @@ code {
 .brand-mark {
   width: 22px;
   height: 22px;
+  flex: none;
   border-radius: 50%;
   background: var(--up);
   position: relative;
@@ -193,14 +194,23 @@ code {
   font-size: 19px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
+/*
+ * Taken out of the flex line and pinned to the middle of the bar, so it is
+ * centred on the page at every width. The reserved 220px keeps it clear of
+ * the brand and the actions as the bar narrows; below that it stops shrinking
+ * and the mobile rules take over.
+ */
 .search {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, 100% - 220px);
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 0 1 560px;
-  min-width: 0;
   height: 36px;
   padding: 0 12px;
   background: var(--surface-2);
@@ -1042,14 +1052,13 @@ code {
     display: none;
   }
 
-  /* No room to reserve equal sides here — the search takes what is left. */
-  .brand,
-  .appbar-actions {
-    flex: 0 0 auto;
-  }
-
+  /* No room to centre anything on a phone — the search takes what is left. */
   .search {
+    position: static;
+    transform: none;
+    width: auto;
     flex: 1 1 auto;
+    min-width: 0;
   }
 
   .row-compact {

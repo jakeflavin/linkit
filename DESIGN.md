@@ -79,7 +79,15 @@ Rules:
 The page is Reddit's two-column feed, centred:
 
 - **App bar**: 48px, sticky, `--surface` with a bottom border. Wordmark left,
-  a pill search field taking the middle, theme toggle right.
+  a pill search field centred, theme toggle right. The bar shares the page's
+  max-width and gutter at every breakpoint, so the wordmark starts on the
+  feed's left edge and the toggle ends on the sidebar's right one.
+- **The search is centred on the bar, not between its neighbours.** It is
+  pinned to the middle and taken out of the flex line, because the brand and
+  the toggle are different widths — sharing a line with them either pulls the
+  field off centre or, once the bar narrows, collapses the wordmark to
+  nothing. It reserves 220px so it never runs into either side, and below
+  640px it stops centring and simply fills the space left over.
 - **Feed**: 640px, holding the compose box, the sort bar, an optional
   community header, and the rows.
 - **Rail**: 312px, sticky under the app bar, holding About / Communities /
