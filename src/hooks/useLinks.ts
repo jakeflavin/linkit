@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { castVote, loadMyVotes, submitLink, sweepRemoved, watchLinks } from '../lib/api.ts'
-import { isRemoved } from '../lib/ranking.ts'
+import { applyVote, isRemoved, resolveVote } from '../lib/ranking.ts'
 import type { Link, LinkDraft, VoteDir } from '../lib/types.ts'
 
 /**
@@ -48,25 +48,23 @@ export function useLinks() {
 
   const vote = async (linkId: string, dir: VoteDir) => {
     const previous = votes[linkId] ?? 0
-    const next: VoteDir = previous === dir ? 0 : dir
+    const next = resolveVote(previous, dir)
+
+    const shift = (from: VoteDir, to: VoteDir) =>
+      setLinks((current) =>
+        current.map((link) => (link.id === linkId ? { ...link, ...applyVote(link, from, to) } : link))
+      )
 
     setVotes((current) => ({ ...current, [linkId]: next }))
-    setLinks((current) =>
-      current.map((link) =>
-        link.id === linkId
-          ? {
-              ...link,
-              ups: link.ups + (next === 1 ? 1 : 0) - (previous === 1 ? 1 : 0),
-              downs: link.downs + (next === -1 ? 1 : 0) - (previous === -1 ? 1 : 0),
-            }
-          : link
-      )
-    )
+    shift(previous, next)
 
     try {
       await castVote(linkId, dir)
     } catch {
+      // Both halves of the guess have to come back, or the row keeps a score
+      // the database never agreed to.
       setVotes((current) => ({ ...current, [linkId]: previous }))
+      shift(next, previous)
       setError('That vote did not stick. Try again.')
     }
   }

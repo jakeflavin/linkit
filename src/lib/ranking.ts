@@ -72,6 +72,31 @@ export function rankLinks(
   return ranked.sort((a, b) => by[sort](a, b) || b.createdAt - a.createdAt)
 }
 
+/**
+ * What a click on an arrow means: casting the same direction twice clears the
+ * vote, as the arrows do on Reddit.
+ */
+export function resolveVote(previous: VoteDir, clicked: VoteDir): VoteDir {
+  return previous === clicked ? 0 : clicked
+}
+
+/**
+ * The tallies after a vote changes from `previous` to `next`. Switching
+ * direction moves both tallies at once — the case that firestore.rules has to
+ * allow, and the reason this lives in one tested function rather than being
+ * written out at each call site.
+ */
+export function applyVote(
+  tallies: { ups: number; downs: number },
+  previous: VoteDir,
+  next: VoteDir
+): { ups: number; downs: number } {
+  return {
+    ups: Math.max(tallies.ups + (next === 1 ? 1 : 0) - (previous === 1 ? 1 : 0), 0),
+    downs: Math.max(tallies.downs + (next === -1 ? 1 : 0) - (previous === -1 ? 1 : 0), 0),
+  }
+}
+
 /** Case-insensitive match across the fields a reader can see. */
 export function matchesQuery(link: Link, query: string): boolean {
   const q = query.trim().toLowerCase()

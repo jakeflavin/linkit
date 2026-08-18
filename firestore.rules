@@ -26,7 +26,13 @@ service cloud.firestore {
         && link.title is string && link.title.size() > 0 && link.title.size() <= 300
         && link.domain is string && link.domain.size() > 0 && link.domain.size() <= 253
         && link.category is string && link.category.size() <= 40
-        && link.createdAt == request.time
+        // A serverTimestamp() transform does not compare equal to request.time
+        // in production (it does in the emulator), so the check is a tight
+        // window instead. Wide enough for commit skew, far too narrow to
+        // backdate a link into a better spot in the New or Hot sort.
+        && link.createdAt is timestamp
+        && link.createdAt > request.time - duration.value(1, 'm')
+        && link.createdAt < request.time + duration.value(1, 'm')
         && link.ups == 1
         && link.downs == 0;
     }
@@ -45,8 +51,12 @@ service cloud.firestore {
         && (after.ups - before.ups) >= -1 && (after.ups - before.ups) <= 1
         && (after.downs - before.downs) >= -1 && (after.downs - before.downs) <= 1
         && (after.ups != before.ups || after.downs != before.downs)
-        // Exactly one tally moves per vote.
-        && (after.ups == before.ups || after.downs == before.downs);
+        // Casting or clearing a vote moves one tally. Switching from up to
+        // down moves both, and only in opposite directions — anything else is
+        // someone inventing score.
+        && (after.ups == before.ups
+            || after.downs == before.downs
+            || after.ups - before.ups == before.downs - after.downs);
     }
 
     match /links/{linkId} {

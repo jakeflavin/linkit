@@ -26,7 +26,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase.ts'
 import { domainOf, normalizeUrl } from './url.ts'
-import { isRemoved } from './ranking.ts'
+import { applyVote, isRemoved, resolveVote } from './ranking.ts'
 import { voterId } from './identity.ts'
 import type { Link, LinkDraft, VoteDir } from './types.ts'
 
@@ -145,13 +145,11 @@ export async function castVote(linkId: string, dir: VoteDir): Promise<void> {
 
     const voteSnap = await tx.get(voteRef)
     const previous: VoteDir = voteSnap.exists() ? (voteSnap.data().dir as VoteDir) : 0
-    const next: VoteDir = previous === dir ? 0 : dir
+    const next = resolveVote(previous, dir)
     if (next === previous) return
 
-    const ups = (linkSnap.data().ups ?? 0) + (next === 1 ? 1 : 0) - (previous === 1 ? 1 : 0)
-    const downs = (linkSnap.data().downs ?? 0) + (next === -1 ? 1 : 0) - (previous === -1 ? 1 : 0)
-
-    tx.update(linkRef, { ups: Math.max(ups, 0), downs: Math.max(downs, 0) })
+    const data = linkSnap.data()
+    tx.update(linkRef, applyVote({ ups: data.ups ?? 0, downs: data.downs ?? 0 }, previous, next))
 
     if (next === 0) tx.delete(voteRef)
     else tx.set(voteRef, { dir: next, voter: voterId(), at: serverTimestamp() })

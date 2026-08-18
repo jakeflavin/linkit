@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { REMOVAL_SCORE, isRemoved, matchesQuery, rankLinks, scoreOf } from './ranking.ts'
+import {
+  REMOVAL_SCORE,
+  applyVote,
+  isRemoved,
+  matchesQuery,
+  rankLinks,
+  resolveVote,
+  scoreOf,
+} from './ranking.ts'
 import type { Link } from './types.ts'
 
 const NOW = 1_700_000_000_000
@@ -113,5 +121,59 @@ describe('matchesQuery', () => {
 
   it('does not match unrelated text', () => {
     expect(matchesQuery(subject, 'kubernetes')).toBe(false)
+  })
+})
+
+describe('resolveVote', () => {
+  it('casts a vote from nothing', () => {
+    expect(resolveVote(0, 1)).toBe(1)
+    expect(resolveVote(0, -1)).toBe(-1)
+  })
+
+  it('clears the vote when the same arrow is clicked again', () => {
+    expect(resolveVote(1, 1)).toBe(0)
+    expect(resolveVote(-1, -1)).toBe(0)
+  })
+
+  it('switches direction when the other arrow is clicked', () => {
+    expect(resolveVote(1, -1)).toBe(-1)
+    expect(resolveVote(-1, 1)).toBe(1)
+  })
+})
+
+describe('applyVote', () => {
+  const start = { ups: 10, downs: 4 }
+
+  it('moves one tally when casting', () => {
+    expect(applyVote(start, 0, 1)).toEqual({ ups: 11, downs: 4 })
+    expect(applyVote(start, 0, -1)).toEqual({ ups: 10, downs: 5 })
+  })
+
+  it('moves one tally when clearing', () => {
+    expect(applyVote(start, 1, 0)).toEqual({ ups: 9, downs: 4 })
+    expect(applyVote(start, -1, 0)).toEqual({ ups: 10, downs: 3 })
+  })
+
+  // firestore.rules has to permit this: both tallies move at once.
+  it('moves both tallies in opposite directions when switching', () => {
+    expect(applyVote(start, 1, -1)).toEqual({ ups: 9, downs: 5 })
+    expect(applyVote(start, -1, 1)).toEqual({ ups: 11, downs: 3 })
+  })
+
+  it('never lets a tally go negative', () => {
+    expect(applyVote({ ups: 0, downs: 0 }, 1, 0)).toEqual({ ups: 0, downs: 0 })
+    expect(applyVote({ ups: 0, downs: 0 }, -1, 0)).toEqual({ ups: 0, downs: 0 })
+  })
+
+  it('round-trips, so a rolled-back guess restores the original tallies', () => {
+    for (const [from, to] of [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [1, -1],
+      [-1, 1],
+    ] as const) {
+      expect(applyVote(applyVote(start, from, to), to, from)).toEqual(start)
+    }
   })
 })
