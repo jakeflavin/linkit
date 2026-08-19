@@ -1,4 +1,5 @@
 import { Rows3, Square } from 'lucide-react'
+import { Toggle, ViewButton } from './ViewToggle.styled'
 import type { ViewMode } from '@/lib/types.ts'
 
 const MODES: { key: ViewMode; label: string; Icon: typeof Rows3 }[] = [
@@ -8,19 +9,19 @@ const MODES: { key: ViewMode; label: string; Icon: typeof Rows3 }[] = [
 
 export function ViewToggle({ mode, onMode }: { mode: ViewMode; onMode: (mode: ViewMode) => void }) {
   return (
-    <div className="view-toggle">
+    <Toggle>
       {MODES.map(({ key, label, Icon }) => (
-        <button
+        <ViewButton
           key={key}
           type="button"
-          className={`view-btn${mode === key ? ' is-active' : ''}`}
+          $active={mode === key}
           aria-label={label}
           aria-pressed={mode === key}
           onClick={() => onMode(key)}
         >
           <Icon size={17} strokeWidth={2} />
-        </button>
+        </ViewButton>
       ))}
-    </div>
+    </Toggle>
   )
 }

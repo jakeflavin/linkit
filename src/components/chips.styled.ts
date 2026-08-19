@@ -43,9 +43,11 @@ export const Chip = styled.button<{ $on?: boolean }>`
   ${(props) =>
     props.$on &&
     `
-    border-color: var(--pill);
-    background: color-mix(in srgb, var(--pill) 14%, var(--surface));
-    color: var(--text);
+    && {
+      border-color: var(--pill);
+      background: color-mix(in srgb, var(--pill) 14%, var(--surface));
+      color: var(--text);
+    }
   `}
 `
 

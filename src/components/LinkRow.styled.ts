@@ -160,5 +160,5 @@ export const Action = styled.button<{ $on?: boolean }>`
     color: var(--text);
   }
 
-  ${(props) => props.$on && 'color: var(--accent);'}
+  ${(props) => props.$on && '&& { color: var(--accent); }'}
 `

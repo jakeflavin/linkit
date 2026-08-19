@@ -1,4 +1,5 @@
 import { Clock, Flame, Sparkles, TrendingUp } from 'lucide-react'
+import { Bar, Count, Tab } from './SortBar.styled'
 import type { SortKey } from '@/lib/types.ts'
 
 const TABS: { key: SortKey; label: string; Icon: typeof Flame }[] = [
@@ -26,32 +27,27 @@ export function SortBar({
   viewToggle,
 }: SortBarProps) {
   return (
-    <div className="sort-bar" role="tablist" aria-label="Sort links">
+    <Bar role="tablist" aria-label="Sort links">
       {TABS.map(({ key, label, Icon }) => (
-        <button
+        <Tab
           key={key}
           type="button"
           role="tab"
           aria-selected={sort === key && !savedOnly}
-          className={`sort-tab${sort === key && !savedOnly ? ' is-active' : ''}`}
+          $active={sort === key && !savedOnly}
           onClick={() => onSort(key)}
         >
           <Icon size={18} strokeWidth={2} />
           {label}
-        </button>
+        </Tab>
       ))}
 
-      <button
-        type="button"
-        className={`sort-tab saved${savedOnly ? ' is-active' : ''}`}
-        aria-pressed={savedOnly}
-        onClick={onToggleSaved}
-      >
+      <Tab type="button" $saved $active={savedOnly} aria-pressed={savedOnly} onClick={onToggleSaved}>
         Saved
-        {savedCount > 0 && <span className="sort-count">{savedCount}</span>}
-      </button>
+        {savedCount > 0 && <Count>{savedCount}</Count>}
+      </Tab>
 
       {viewToggle}
-    </div>
+    </Bar>
   )
 }
