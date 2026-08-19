@@ -42,7 +42,16 @@ export function VoteRail({ score, vote, onVote, title }: VoteRailProps) {
   )
 }
 
+/*
+ * Built once; constructing a formatter costs more than using one, and this runs per row.
+ * Not Intl's own compact notation, deliberately: it is the locale-correct answer, but it
+ * renders 1200 as "1,2 Tsd." in de, and this badge sits in a fixed-width rail beside the
+ * arrows. The k stays, and Intl is left to do the part it is actually needed for — the
+ * decimal mark, which was a hardcoded period before.
+ */
+const score1dp = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 })
+
 function formatScore(score: number): string {
-  if (Math.abs(score) < 1000) return String(score)
-  return `${(score / 1000).toFixed(1).replace(/\.0$/, '')}k`
+  if (Math.abs(score) < 1000) return score1dp.format(score)
+  return `${score1dp.format(score / 1000)}k`
 }
