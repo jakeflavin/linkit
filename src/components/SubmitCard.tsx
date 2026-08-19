@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
 import { Loader2, Plus } from 'lucide-react'
-import { CATEGORIES, CATEGORY_IDS } from '../data/categories.ts'
-import { normalizeUrl, validateDraft, type DraftErrors } from '../lib/url.ts'
-import { fetchPreview } from '../lib/preview.ts'
+import { CATEGORIES, CATEGORY_IDS } from '@/data/categories.ts'
+import { normalizeUrl, validateDraft, type DraftErrors } from '@/lib/url.ts'
+import { fetchPreview } from '@/lib/preview.ts'
 import { Thumb } from './Thumb.tsx'
-import { domainOf } from '../lib/url.ts'
-import type { LinkDraft } from '../lib/types.ts'
+import { domainOf } from '@/lib/url.ts'
+import type { LinkDraft } from '@/lib/types.ts'
 
 interface SubmitCardProps {
   onSubmit: (draft: LinkDraft) => Promise<void>

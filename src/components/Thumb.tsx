@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link2 } from 'lucide-react'
-import { faviconFor } from '../lib/url.ts'
-import type { ViewMode } from '../lib/types.ts'
+import { faviconFor } from '@/lib/url.ts'
+import type { ViewMode } from '@/lib/types.ts'
 
 interface ThumbProps {
   image: string | null

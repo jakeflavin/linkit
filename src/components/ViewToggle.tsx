@@ -1,5 +1,5 @@
 import { Rows3, Square } from 'lucide-react'
-import type { ViewMode } from '../lib/types.ts'
+import type { ViewMode } from '@/lib/types.ts'
 
 const MODES: { key: ViewMode; label: string; Icon: typeof Rows3 }[] = [
   { key: 'compact', label: 'Compact view', Icon: Rows3 },

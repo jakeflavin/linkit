@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import { categoryOf } from '../data/categories.ts'
+import { categoryOf } from '@/data/categories.ts'
 
 interface CommunityHeaderProps {
   category: string

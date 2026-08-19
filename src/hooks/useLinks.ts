@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { castVote, loadMyVotes, submitLink, sweepRemoved, watchLinks } from '../lib/api.ts'
-import { applyVote, isRemoved, resolveVote } from '../lib/ranking.ts'
-import type { Link, LinkDraft, VoteDir } from '../lib/types.ts'
+import { castVote, loadMyVotes, submitLink, sweepRemoved, watchLinks } from '@/lib/api.ts'
+import { applyVote, isRemoved, resolveVote } from '@/lib/ranking.ts'
+import type { Link, LinkDraft, VoteDir } from '@/lib/types.ts'
 
 /**
  * The board: the live link list, this browser's votes, and the vote action.

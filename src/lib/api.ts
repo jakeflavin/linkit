@@ -24,7 +24,7 @@ import {
   type DocumentData,
   type QueryDocumentSnapshot,
 } from 'firebase/firestore'
-import { db } from '../firebase.ts'
+import { db } from '@/firebase.ts'
 import { domainOf, normalizeUrl } from './url.ts'
 import { applyVote, isRemoved, resolveVote } from './ranking.ts'
 import { voterId } from './identity.ts'

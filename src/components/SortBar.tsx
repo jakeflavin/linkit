@@ -1,5 +1,5 @@
 import { Clock, Flame, Sparkles, TrendingUp } from 'lucide-react'
-import type { SortKey } from '../lib/types.ts'
+import type { SortKey } from '@/lib/types.ts'
 
 const TABS: { key: SortKey; label: string; Icon: typeof Flame }[] = [
   { key: 'hot', label: 'Hot', Icon: Flame },

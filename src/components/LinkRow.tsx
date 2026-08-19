@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Bookmark, BookmarkCheck, Link2, SquareArrowOutUpRight } from 'lucide-react'
 import { VoteRail } from './VoteRail.tsx'
 import { Thumb } from './Thumb.tsx'
-import { categoryOf } from '../data/categories.ts'
-import { faviconFor } from '../lib/url.ts'
-import { timeAgo } from '../lib/time.ts'
-import { REMOVAL_SCORE } from '../lib/ranking.ts'
-import type { RankedLink, ViewMode, VoteDir } from '../lib/types.ts'
+import { categoryOf } from '@/data/categories.ts'
+import { faviconFor } from '@/lib/url.ts'
+import { timeAgo } from '@/lib/time.ts'
+import { REMOVAL_SCORE } from '@/lib/ranking.ts'
+import type { RankedLink, ViewMode, VoteDir } from '@/lib/types.ts'
 
 interface LinkRowProps {
   link: RankedLink

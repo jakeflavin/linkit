@@ -1,5 +1,5 @@
 import { Moon, Search, Sun } from 'lucide-react'
-import type { Theme } from '../hooks/useTheme.ts'
+import type { Theme } from '@/hooks/useTheme.ts'
 
 interface AppBarProps {
   query: string

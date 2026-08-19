@@ -1,5 +1,5 @@
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react'
-import type { VoteDir } from '../lib/types.ts'
+import type { VoteDir } from '@/lib/types.ts'
 
 interface VoteRailProps {
   score: number

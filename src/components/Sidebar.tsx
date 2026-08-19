@@ -1,6 +1,6 @@
-import { CATEGORIES } from '../data/categories.ts'
-import { REMOVAL_SCORE } from '../lib/ranking.ts'
-import type { Link } from '../lib/types.ts'
+import { CATEGORIES } from '@/data/categories.ts'
+import { REMOVAL_SCORE } from '@/lib/ranking.ts'
+import type { Link } from '@/lib/types.ts'
 
 interface SidebarProps {
   links: readonly Link[]
