@@ -27,7 +27,7 @@ export function useLinks() {
       (message) => {
         setError(message)
         setLoading(false)
-      }
+      },
     )
     return unsubscribe
   }, [])
@@ -52,7 +52,9 @@ export function useLinks() {
 
     const shift = (from: VoteDir, to: VoteDir) =>
       setLinks((current) =>
-        current.map((link) => (link.id === linkId ? { ...link, ...applyVote(link, from, to) } : link))
+        current.map((link) =>
+          link.id === linkId ? { ...link, ...applyVote(link, from, to) } : link,
+        ),
       )
 
     setVotes((current) => ({ ...current, [linkId]: next }))

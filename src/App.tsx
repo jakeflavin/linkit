@@ -31,13 +31,13 @@ export default function App() {
       (link) =>
         (category === null || link.category === category) &&
         matchesQuery(link, query) &&
-        (!savedOnly || saved.includes(link.id))
+        (!savedOnly || saved.includes(link.id)),
     )
   }, [links, sort, votes, category, query, savedOnly, saved])
 
   const toggleSave = (id: string) =>
     setSaved((current) =>
-      current.includes(id) ? current.filter((saved) => saved !== id) : [...current, id]
+      current.includes(id) ? current.filter((saved) => saved !== id) : [...current, id],
     )
 
   const pickCategory = (next: string | null) => {
@@ -53,16 +53,13 @@ export default function App() {
         <div className="feed">
           {!isConfigured && (
             <Banner>
-              No database configured — copy <code>.env.example</code> to <code>.env</code> and
-              fill in your Firebase keys.
+              No database configured — copy <code>.env.example</code> to <code>.env</code> and fill
+              in your Firebase keys.
             </Banner>
           )}
           {error && <Banner>{error}</Banner>}
 
-          <SubmitCard
-            disabled={!isConfigured}
-            onSubmit={submit}
-          />
+          <SubmitCard disabled={!isConfigured} onSubmit={submit} />
 
           <SortBar
             sort={sort}

@@ -55,7 +55,7 @@ export function rankLinks(
   links: readonly Link[],
   sort: SortKey,
   votes: Readonly<Record<string, VoteDir>>,
-  now: number = Date.now()
+  now: number = Date.now(),
 ): RankedLink[] {
   const ranked: RankedLink[] = links
     .filter((link) => !isRemoved(link))
@@ -89,7 +89,7 @@ export function resolveVote(previous: VoteDir, clicked: VoteDir): VoteDir {
 export function applyVote(
   tallies: { ups: number; downs: number },
   previous: VoteDir,
-  next: VoteDir
+  next: VoteDir,
 ): { ups: number; downs: number } {
   return {
     ups: Math.max(tallies.ups + (next === 1 ? 1 : 0) - (previous === 1 ? 1 : 0), 0),

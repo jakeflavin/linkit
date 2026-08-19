@@ -17,8 +17,8 @@ export function Sidebar({ links, active, onPick }: SidebarProps) {
       <section className="card about">
         <h2 className="card-title">About linkit</h2>
         <p>
-          An anonymous board of links worth keeping. No accounts, no profiles — post what you
-          find, and the votes decide what stays.
+          An anonymous board of links worth keeping. No accounts, no profiles — post what you find,
+          and the votes decide what stays.
         </p>
         <dl className="stats">
           <div>

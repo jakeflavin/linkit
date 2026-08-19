@@ -6,13 +6,7 @@ const MODES: { key: ViewMode; label: string; Icon: typeof Rows3 }[] = [
   { key: 'card', label: 'Card view', Icon: Square },
 ]
 
-export function ViewToggle({
-  mode,
-  onMode,
-}: {
-  mode: ViewMode
-  onMode: (mode: ViewMode) => void
-}) {
+export function ViewToggle({ mode, onMode }: { mode: ViewMode; onMode: (mode: ViewMode) => void }) {
   return (
     <div className="view-toggle">
       {MODES.map(({ key, label, Icon }) => (

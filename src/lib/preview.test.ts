@@ -9,7 +9,7 @@ describe('parsePreview', () => {
       parsePreview({
         status: 'success',
         data: { title: 'Excalidraw', image: { url: 'https://excalidraw.com/og.png' } },
-      })
+      }),
     ).toEqual({ title: 'Excalidraw', image: 'https://excalidraw.com/og.png' })
   })
 
@@ -31,11 +31,11 @@ describe('parsePreview', () => {
   // An http image would make the whole page mixed content.
   it('drops a non-https image', () => {
     expect(
-      parsePreview({ status: 'success', data: { image: { url: 'http://example.com/a.png' } } })
+      parsePreview({ status: 'success', data: { image: { url: 'http://example.com/a.png' } } }),
     ).toEqual(EMPTY)
-    expect(
-      parsePreview({ status: 'success', data: { image: { url: 'not a url' } } })
-    ).toEqual(EMPTY)
+    expect(parsePreview({ status: 'success', data: { image: { url: 'not a url' } } })).toEqual(
+      EMPTY,
+    )
   })
 
   it('collapses whitespace in a title and drops an empty one', () => {
@@ -44,9 +44,9 @@ describe('parsePreview', () => {
   })
 
   it('caps a runaway title at the length the form allows', () => {
-    expect(parsePreview({ status: 'success', data: { title: 'x'.repeat(400) } }).title).toHaveLength(
-      300
-    )
+    expect(
+      parsePreview({ status: 'success', data: { title: 'x'.repeat(400) } }).title,
+    ).toHaveLength(300)
   })
 
   it('ignores fields of the wrong type', () => {

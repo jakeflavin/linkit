@@ -56,7 +56,7 @@ export function validateDraft(
   url: string,
   title: string,
   category: string,
-  knownCategories: readonly string[]
+  knownCategories: readonly string[],
 ): DraftErrors {
   const errors: DraftErrors = {}
 

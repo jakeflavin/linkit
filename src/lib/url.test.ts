@@ -56,13 +56,13 @@ describe('validateDraft', () => {
 
   it('rejects a category that is not on the list', () => {
     expect(validateDraft('https://example.com', 'A thing', 'ghost', CATEGORIES).category).toBe(
-      'Pick a community.'
+      'Pick a community.',
     )
   })
 
   it('rejects an over-long title', () => {
     expect(validateDraft('https://example.com', 'x'.repeat(301), 'fun', CATEGORIES).title).toMatch(
-      /cap/
+      /cap/,
     )
   })
 })

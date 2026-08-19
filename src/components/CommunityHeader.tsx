@@ -21,7 +21,12 @@ export function CommunityHeader({ category, count, onClear }: CommunityHeaderPro
       <span className="community-header-count">
         {count} {count === 1 ? 'link' : 'links'}
       </span>
-      <button type="button" className="icon-btn" onClick={onClear} aria-label="Show every community">
+      <button
+        type="button"
+        className="icon-btn"
+        onClick={onClear}
+        aria-label="Show every community"
+      >
         <X size={18} strokeWidth={2} />
       </button>
     </section>

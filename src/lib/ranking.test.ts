@@ -108,7 +108,12 @@ describe('rankLinks', () => {
 })
 
 describe('matchesQuery', () => {
-  const subject = link({ id: 'a', title: 'Excalidraw', domain: 'excalidraw.com', category: 'design' })
+  const subject = link({
+    id: 'a',
+    title: 'Excalidraw',
+    domain: 'excalidraw.com',
+    category: 'design',
+  })
 
   it('matches an empty query', () => {
     expect(matchesQuery(subject, '   ')).toBe(true)

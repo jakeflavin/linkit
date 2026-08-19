@@ -70,7 +70,7 @@ function toLink(snap: QueryDocumentSnapshot<DocumentData>): Link {
  */
 export function watchLinks(
   onLinks: (links: Link[]) => void,
-  onError: (message: string) => void
+  onError: (message: string) => void,
 ): () => void {
   if (!db) {
     onLinks([])
@@ -82,7 +82,7 @@ export function watchLinks(
   return onSnapshot(
     q,
     (snap) => onLinks(snap.docs.map(toLink)),
-    () => onError('Could not reach the link database.')
+    () => onError('Could not reach the link database.'),
   )
 }
 
@@ -171,7 +171,7 @@ export async function loadMyVotes(): Promise<Record<string, VoteDir>> {
   if (!db) return {}
 
   const snap = await getDocs(
-    query(collectionGroup(db, VOTES), where('voter', '==', voterId()), limit(FEED_LIMIT))
+    query(collectionGroup(db, VOTES), where('voter', '==', voterId()), limit(FEED_LIMIT)),
   )
 
   const votes: Record<string, VoteDir> = {}
@@ -197,9 +197,11 @@ export async function sweepRemoved(links: readonly Link[]): Promise<void> {
   const me = voterId()
 
   await Promise.allSettled(
-    links.filter(isRemoved).flatMap((link) => [
-      deleteDoc(doc(database, LINKS, link.id, VOTES, me)),
-      deleteDoc(doc(database, LINKS, link.id)),
-    ])
+    links
+      .filter(isRemoved)
+      .flatMap((link) => [
+        deleteDoc(doc(database, LINKS, link.id, VOTES, me)),
+        deleteDoc(doc(database, LINKS, link.id)),
+      ]),
   )
 }

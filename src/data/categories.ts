@@ -14,15 +14,50 @@ export interface Category {
 }
 
 export const CATEGORIES: readonly Category[] = [
-  { id: 'tools', label: 'tools', blurb: 'Things that build, test, and ship software.', color: '#FF4500' },
+  {
+    id: 'tools',
+    label: 'tools',
+    blurb: 'Things that build, test, and ship software.',
+    color: '#FF4500',
+  },
   { id: 'learn', label: 'learn', blurb: 'Courses, books, and deep explainers.', color: '#0079D3' },
-  { id: 'design', label: 'design', blurb: 'Interfaces, type, colour, and inspiration.', color: '#FF66AC' },
-  { id: 'ai', label: 'ai', blurb: 'Models, agents, and the tooling around them.', color: '#7193FF' },
+  {
+    id: 'design',
+    label: 'design',
+    blurb: 'Interfaces, type, colour, and inspiration.',
+    color: '#FF66AC',
+  },
+  {
+    id: 'ai',
+    label: 'ai',
+    blurb: 'Models, agents, and the tooling around them.',
+    color: '#7193FF',
+  },
   { id: 'data', label: 'data', blurb: 'Open datasets, APIs, and dashboards.', color: '#00A6A5' },
-  { id: 'reading', label: 'reading', blurb: 'Essays and writing worth the time.', color: '#DDBD37' },
-  { id: 'fun', label: 'fun', blurb: 'Toys, oddities, and the good kind of useless.', color: '#94E044' },
-  { id: 'money', label: 'money', blurb: 'Finance, pricing, and running a business.', color: '#46D160' },
-  { id: 'health', label: 'health', blurb: 'Training, sleep, food, and evidence.', color: '#EA0027' },
+  {
+    id: 'reading',
+    label: 'reading',
+    blurb: 'Essays and writing worth the time.',
+    color: '#DDBD37',
+  },
+  {
+    id: 'fun',
+    label: 'fun',
+    blurb: 'Toys, oddities, and the good kind of useless.',
+    color: '#94E044',
+  },
+  {
+    id: 'money',
+    label: 'money',
+    blurb: 'Finance, pricing, and running a business.',
+    color: '#46D160',
+  },
+  {
+    id: 'health',
+    label: 'health',
+    blurb: 'Training, sleep, food, and evidence.',
+    color: '#EA0027',
+  },
   { id: 'misc', label: 'misc', blurb: 'Good links that fit nowhere else.', color: '#A5A4A4' },
 ]
 
