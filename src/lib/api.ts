@@ -90,7 +90,10 @@ export function watchLinks(
 export async function findByUrl(url: string): Promise<Link | null> {
   const database = requireDb()
   const snap = await getDocs(query(collection(database, LINKS), where('url', '==', url), limit(1)))
-  return snap.empty ? null : toLink(snap.docs[0])
+  // Guarding the document itself rather than snap.empty: same condition, but the one the
+  // compiler can follow to the read.
+  const [first] = snap.docs
+  return first ? toLink(first) : null
 }
 
 /**

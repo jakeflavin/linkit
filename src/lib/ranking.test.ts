@@ -72,7 +72,7 @@ describe('rankLinks', () => {
       link({ id: 'old', ups: 10, createdAt: NOW - 48 * HOUR }),
       link({ id: 'fresh', ups: 10, createdAt: NOW }),
     ]
-    expect(rankLinks(links, 'hot', votes, NOW)[0].id).toBe('fresh')
+    expect(rankLinks(links, 'hot', votes, NOW)[0]?.id).toBe('fresh')
   })
 
   it('lets hot favour a much higher score over freshness', () => {
@@ -80,7 +80,7 @@ describe('rankLinks', () => {
       link({ id: 'huge', ups: 5000, createdAt: NOW - 6 * HOUR }),
       link({ id: 'fresh', ups: 1, createdAt: NOW }),
     ]
-    expect(rankLinks(links, 'hot', votes, NOW)[0].id).toBe('huge')
+    expect(rankLinks(links, 'hot', votes, NOW)[0]?.id).toBe('huge')
   })
 
   it('excludes links older than the rising window', () => {
@@ -88,7 +88,7 @@ describe('rankLinks', () => {
       link({ id: 'stale', ups: 500, createdAt: NOW - 24 * HOUR }),
       link({ id: 'climbing', ups: 6, createdAt: NOW - HOUR }),
     ]
-    expect(rankLinks(links, 'rising', votes, NOW)[0].id).toBe('climbing')
+    expect(rankLinks(links, 'rising', votes, NOW)[0]?.id).toBe('climbing')
   })
 
   it('attaches this browser vote to each link', () => {
