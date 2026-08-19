@@ -40,7 +40,13 @@ const SEED = [
 
 if (!HOST.startsWith('127.0.0.1')) throw new Error('seed only ever runs against the emulator')
 
-const now = Date.now()
+/*
+ * The ages below are relative, so a run an hour later writes different documents and
+ * every "3h ago" in a screenshot moves. SEED_NOW pins the instant the visual guard
+ * pins its clock to, which is what makes the seeded board photographable at all.
+ */
+const now = process.env.SEED_NOW ? Date.parse(process.env.SEED_NOW) : Date.now()
+if (Number.isNaN(now)) throw new Error(`SEED_NOW is not a date: ${process.env.SEED_NOW}`)
 
 for (const [title, url, category, ups, downs, hoursOld, image] of SEED) {
   const createdAt = new Date(now - hoursOld * HOUR).toISOString()
