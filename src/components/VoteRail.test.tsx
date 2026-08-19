@@ -29,7 +29,7 @@ describe('VoteRail', () => {
 
   it('announces the score as it changes, since voting does not move focus', () => {
     const { container } = render(<VoteRail {...props} score={5} />)
-    expect(container.querySelector('.vote-score')).toHaveAttribute('aria-live', 'polite')
+    expect(container.querySelector('[aria-live="polite"]')).toHaveTextContent('5')
   })
 
   it('reports which way this browser voted on the arrows themselves', () => {

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Favicon, Glyph, Tile } from './Thumb.styled'
 import { Link2 } from 'lucide-react'
 import { faviconFor } from '@/lib/url.ts'
 import type { ViewMode } from '@/lib/types.ts'
@@ -21,7 +22,7 @@ interface ThumbProps {
  */
 export function Thumb({ image, domain, mode, onImageError }: ThumbProps) {
   return (
-    <div className={`thumb thumb-${mode}${image ? '' : ' is-fallback'}`} aria-hidden="true">
+    <Tile $card={mode === 'card'} $fallback={!image} aria-hidden="true">
       {image ? (
         <img
           src={image}
@@ -35,18 +36,17 @@ export function Thumb({ image, domain, mode, onImageError }: ThumbProps) {
       ) : (
         <FallbackMark domain={domain} />
       )}
-    </div>
+    </Tile>
   )
 }
 
 function FallbackMark({ domain }: { domain: string }) {
   const [failed, setFailed] = useState(false)
 
-  if (!domain || failed) return <Link2 className="thumb-glyph" size={20} strokeWidth={2} />
+  if (!domain || failed) return <Glyph as={Link2} size={20} strokeWidth={2} />
 
   return (
-    <img
-      className="thumb-favicon"
+    <Favicon
       src={faviconFor(domain)}
       alt=""
       loading="lazy"

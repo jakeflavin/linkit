@@ -1,4 +1,18 @@
 import { useState } from 'react'
+import {
+  Action,
+  Actions,
+  Body,
+  Domain,
+  HeroLink,
+  Meta,
+  Rank,
+  Row,
+  Title,
+  ThumbLink,
+  Warning,
+} from './LinkRow.styled'
+import { Pill } from './chips.styled'
 import { Bookmark, BookmarkCheck, Link2, SquareArrowOutUpRight } from 'lucide-react'
 import { VoteRail } from './VoteRail.tsx'
 import { Thumb } from './Thumb.tsx'
@@ -51,10 +65,10 @@ export function LinkRow({
   }
 
   return (
-    <article className={`row row-${layout}`}>
-      <span className="row-rank" aria-hidden="true">
+    <Row $card={layout === 'card'} data-layout={layout}>
+      <Rank aria-hidden="true">
         {rank}
-      </span>
+      </Rank>
 
       <VoteRail
         score={link.score}
@@ -64,8 +78,7 @@ export function LinkRow({
       />
 
       {layout === 'compact' && (
-        <a
-          className="row-thumb-link"
+        <ThumbLink
           href={link.url}
           target="_blank"
           rel="noopener noreferrer nofollow"
@@ -77,46 +90,39 @@ export function LinkRow({
             mode="compact"
             onImageError={() => setImageFailed(true)}
           />
-        </a>
+        </ThumbLink>
       )}
 
-      <div className="row-body">
-        <div className="row-meta">
-          <button
+      <Body>
+        <Meta>
+          <Pill
             type="button"
-            className="pill"
             style={{ '--pill': category.color } as React.CSSProperties}
             onClick={() => onPickCategory(category.id)}
           >
             l/{category.label}
-          </button>
-          <span className="row-dot" aria-hidden="true">
+          </Pill>
+          <span aria-hidden="true">
             •
           </span>
-          <span className="row-time">{timeAgo(link.createdAt)}</span>
-          {atRisk && <span className="row-warning">on thin ice</span>}
-        </div>
+          <span>{timeAgo(link.createdAt)}</span>
+          {atRisk && <Warning>on thin ice</Warning>}
+        </Meta>
 
-        <h2 className="row-title">
+        <Title>
           <a href={link.url} target="_blank" rel="noopener noreferrer nofollow">
             {link.title}
           </a>
-        </h2>
+        </Title>
 
-        <a
-          className="row-domain"
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-        >
+        <Domain href={link.url} target="_blank" rel="noopener noreferrer nofollow">
           <img src={faviconFor(link.domain)} alt="" width={16} height={16} loading="lazy" />
           {link.domain}
           <SquareArrowOutUpRight size={11} strokeWidth={2} />
-        </a>
+        </Domain>
 
         {layout === 'card' && (
-          <a
-            className="row-hero"
+          <HeroLink
             href={link.url}
             target="_blank"
             rel="noopener noreferrer nofollow"
@@ -128,17 +134,17 @@ export function LinkRow({
               mode="card"
               onImageError={() => setImageFailed(true)}
             />
-          </a>
+          </HeroLink>
         )}
 
-        <div className="row-actions">
-          <button type="button" className="row-action" onClick={copy}>
+        <Actions>
+          <Action type="button" onClick={copy}>
             <Link2 size={16} strokeWidth={1.75} />
             {copied ? 'Copied' : 'Copy link'}
-          </button>
-          <button
+          </Action>
+          <Action
             type="button"
-            className={`row-action${saved ? ' is-on' : ''}`}
+            $on={saved}
             aria-pressed={saved}
             onClick={() => onToggleSave(link.id)}
           >
@@ -148,9 +154,9 @@ export function LinkRow({
               <Bookmark size={16} strokeWidth={1.75} />
             )}
             {saved ? 'Saved' : 'Save'}
-          </button>
-        </div>
-      </div>
-    </article>
+          </Action>
+        </Actions>
+      </Body>
+    </Row>
   )
 }

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { Button, Spinner } from './buttons.styled'
+import { Chip, ChipRow } from './chips.styled'
 import { Loader2, Plus } from 'lucide-react'
 import { CATEGORIES, CATEGORY_IDS } from '@/data/categories.ts'
 import { normalizeUrl, validateDraft, type DraftErrors } from '@/lib/url.ts'
@@ -148,20 +149,20 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
 
       <fieldset className="field">
         <legend className="field-label">Community</legend>
-        <div className="chip-row">
+        <ChipRow>
           {CATEGORIES.map((option) => (
-            <button
+            <Chip
               key={option.id}
               type="button"
-              className={`chip${category === option.id ? ' is-on' : ''}`}
+              $on={category === option.id}
               style={{ '--pill': option.color } as React.CSSProperties}
               aria-pressed={category === option.id}
               onClick={() => setCategory(option.id)}
             >
               l/{option.label}
-            </button>
+            </Chip>
           ))}
-        </div>
+        </ChipRow>
         {errors.category && <span className="field-error">{errors.category}</span>}
       </fieldset>
 

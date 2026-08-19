@@ -33,14 +33,14 @@ describe('LinkRow', () => {
   it('falls back to the compact layout when there is no image to show', () => {
     // Card view would otherwise render a 16:9 hole, which is most links.
     const { container } = render(<LinkRow {...props} link={link({ image: null })} />)
-    expect(container.querySelector('.row-compact')).not.toBeNull()
+    expect(container.querySelector('[data-layout="compact"]')).not.toBeNull()
   })
 
   it('uses the card layout when an image is available', () => {
     const { container } = render(
       <LinkRow {...props} link={link({ image: 'https://example.com/i.png' })} />,
     )
-    expect(container.querySelector('.row-card')).not.toBeNull()
+    expect(container.querySelector('[data-layout="card"]')).not.toBeNull()
   })
 
   it('drops back to compact when the image fails to load', async () => {
@@ -51,7 +51,7 @@ describe('LinkRow', () => {
     const img = container.querySelector<HTMLImageElement>('img[src*="broken"]')
     expect(img).not.toBeNull()
     fireEvent.error(img!)
-    expect(await screen.findByRole('article')).toHaveClass('row-compact')
+    expect(await screen.findByRole('article')).toHaveAttribute('data-layout', 'compact')
   })
 
   it('warns when a link is close to being removed', () => {

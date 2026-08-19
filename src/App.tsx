@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Feed, Footer, Page } from './App.styled'
+import { Rows } from './components/LinkRow.styled'
 import { AppBar } from './components/AppBar.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { SortBar } from './components/SortBar.tsx'
@@ -87,7 +88,7 @@ export default function App() {
           ) : visible.length === 0 ? (
             <EmptyFeed {...emptyCopy(links.length, query, savedOnly)} />
           ) : (
-            <div className="rows">
+            <Rows>
               {visible.map((link, index) => (
                 <LinkRow
                   key={link.id}
@@ -100,7 +101,7 @@ export default function App() {
                   onPickCategory={pickCategory}
                 />
               ))}
-            </div>
+            </Rows>
           )}
         </Feed>
 

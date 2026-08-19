@@ -129,7 +129,6 @@ code {
 .compose,
 .sort-bar,
 .compose-stub,
-.row,
 .notice {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -226,49 +225,6 @@ code {
 .field-error {
   font-size: var(--font-meta);
   color: var(--up);
-}
-
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.chip,
-.pill {
-  --pill: var(--dim);
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 24px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  font-size: var(--font-meta);
-  font-weight: 600;
-  color: var(--dim);
-}
-
-.chip::before,
-.pill::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--pill);
-}
-
-.chip:hover,
-.pill:hover {
-  color: var(--text);
-  border-color: var(--pill);
-}
-
-.chip.is-on {
-  border-color: var(--pill);
-  background: color-mix(in srgb, var(--pill) 14%, var(--surface));
-  color: var(--text);
 }
 
 .compose-actions {
@@ -404,247 +360,10 @@ code {
   font-variant-numeric: tabular-nums;
 }
 
-/* --- Rows ---------------------------------------------------------------- */
-
-.rows {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .row {
   display: grid;
   align-items: stretch;
   overflow: hidden;
-}
-
-.row-compact {
-  grid-template-columns: 28px 40px auto minmax(0, 1fr);
-}
-
-.row-card {
-  grid-template-columns: 28px 40px minmax(0, 1fr);
-}
-
-.row:hover {
-  border-color: var(--dim);
-}
-
-.row-rank {
-  display: grid;
-  place-items: center;
-  background: var(--rail);
-  color: var(--dim);
-  font-size: var(--font-meta);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-.vote-rail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 8px 0;
-  background: var(--rail);
-  border-right: 1px solid var(--line-soft);
-}
-
-.vote-arrow {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border: 0;
-  border-radius: 2px;
-  background: none;
-  color: var(--dim);
-}
-
-.vote-arrow:hover {
-  background: var(--hover);
-}
-
-.vote-arrow.up:hover,
-.vote-arrow.up.is-cast {
-  color: var(--up);
-}
-
-.vote-arrow.down:hover,
-.vote-arrow.down.is-cast {
-  color: var(--down);
-}
-
-.vote-arrow.is-cast :first-child {
-  fill: currentColor;
-}
-
-.vote-score {
-  font-size: var(--font-meta);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.vote-score.is-up {
-  color: var(--up);
-}
-
-.vote-score.is-down {
-  color: var(--down);
-}
-
-.row-body {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 8px 12px 6px;
-  min-width: 0;
-}
-
-.row-meta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--font-meta);
-  color: var(--dim);
-  flex-wrap: wrap;
-}
-
-.row-meta .pill {
-  height: 20px;
-  padding: 0 8px;
-  border-color: transparent;
-  background: none;
-}
-
-.row-warning {
-  color: var(--up);
-  font-weight: 600;
-}
-
-.row-title {
-  font-size: var(--font-title);
-  font-weight: 500;
-  text-wrap: pretty;
-}
-
-.row-title a:hover {
-  color: var(--accent);
-}
-
-.row-title a:visited {
-  color: var(--dim);
-}
-
-.row-domain {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  align-self: flex-start;
-  max-width: 100%;
-  font-size: var(--font-meta);
-  color: var(--accent);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.row-domain img {
-  border-radius: 2px;
-  flex: none;
-}
-
-.row-domain:hover {
-  text-decoration: underline;
-}
-
-.row-actions {
-  display: flex;
-  gap: 2px;
-  margin-top: 2px;
-}
-
-.row-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 26px;
-  padding: 0 8px;
-  border: 0;
-  border-radius: 2px;
-  background: none;
-  color: var(--dim);
-  font-size: var(--font-meta);
-  font-weight: 700;
-}
-
-.row-action:hover {
-  background: var(--hover);
-  color: var(--text);
-}
-
-.row-action.is-on {
-  color: var(--accent);
-}
-
-/* --- Preview images ------------------------------------------------------ */
-
-/* The thumbnail is a fixed box the image is cropped into, so a row's height
-   never depends on what a site happens to serve. */
-.thumb {
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: var(--surface-2);
-  border: 1px solid var(--line-soft);
-}
-
-.thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.thumb.is-fallback {
-  display: grid;
-  place-items: center;
-  color: var(--dim);
-}
-
-/* The fallback favicon sits at its own size rather than filling the tile. */
-.thumb-favicon {
-  width: 24px !important;
-  height: 24px !important;
-  object-fit: contain !important;
-  border-radius: 3px;
-}
-
-.thumb-compact {
-  width: 76px;
-  height: 76px;
-  flex: none;
-}
-
-.thumb-card {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 320px;
-}
-
-.thumb-card .thumb-favicon {
-  width: 40px !important;
-  height: 40px !important;
-}
-
-.row-thumb-link {
-  display: block;
-  align-self: center;
-  padding: 8px 0 8px 10px;
-}
-
-.row-hero {
-  display: block;
-  margin: 6px 0 2px;
 }
 
 .compose-preview {
@@ -656,10 +375,6 @@ code {
 .compose-preview-note {
   font-size: var(--font-meta);
   color: var(--dim);
-}
-
-.thumb-glyph {
-  opacity: 0.7;
 }
 
 /* --- Sidebar ------------------------------------------------------------- */
@@ -827,33 +542,6 @@ code {
 }
 
 @media (max-width: 640px) {
-  .row-compact {
-    grid-template-columns: 36px auto minmax(0, 1fr);
-  }
-
-  .row-card {
-    grid-template-columns: 36px minmax(0, 1fr);
-  }
-
-  /* A 76px tile is a third of a phone's width; the row needs the space more. */
-  .thumb-compact {
-    width: 56px;
-    height: 56px;
-  }
-
-  .row-thumb-link {
-    padding-left: 8px;
-  }
-
-  /* No room for both a rank and a rail; the arrows win. */
-  .row-rank {
-    display: none;
-  }
-
-  .row-title {
-    font-size: 16px;
-  }
-
   /*
    * Two rows of three rather than a sideways scroll, which hides whatever
    * does not fit and is awkward to work with a thumb. Six controls into a
