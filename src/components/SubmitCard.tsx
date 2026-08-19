@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Button, Spinner } from './buttons.styled'
 import { Loader2, Plus } from 'lucide-react'
 import { CATEGORIES, CATEGORY_IDS } from '@/data/categories.ts'
 import { normalizeUrl, validateDraft, type DraftErrors } from '@/lib/url.ts'
@@ -123,7 +124,7 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
         <div className="compose-preview">
           {looking ? (
             <div className="thumb thumb-compact is-fallback">
-              <Loader2 className="thumb-glyph spin" size={20} strokeWidth={2} />
+              <Spinner as={Loader2} className="thumb-glyph" size={20} strokeWidth={2} />
             </div>
           ) : (
             <Thumb image={image} domain={domainOf(normalizeUrl(url) ?? '')} mode="compact" />
@@ -165,13 +166,13 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
       </fieldset>
 
       <div className="compose-actions">
-        <button type="button" className="btn ghost" onClick={reset}>
+        <Button type="button" $ghost onClick={reset}>
           Cancel
-        </button>
-        <button type="submit" className="btn primary" disabled={sending}>
-          {sending && <Loader2 size={16} className="spin" strokeWidth={2.5} />}
+        </Button>
+        <Button type="submit" $primary disabled={sending}>
+          {sending && <Spinner as={Loader2} size={16} strokeWidth={2.5} />}
           {sending ? 'Posting' : 'Post'}
-        </button>
+        </Button>
       </div>
     </form>
   )

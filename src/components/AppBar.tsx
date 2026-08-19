@@ -1,5 +1,15 @@
 import { Moon, Search, Sun } from 'lucide-react'
 import type { Theme } from '@/hooks/useTheme.ts'
+import {
+  Actions,
+  Bar,
+  Brand,
+  BrandMark,
+  BrandWord,
+  Inner,
+  SearchBox,
+} from './AppBar.styled'
+import { IconButton } from './buttons.styled'
 
 interface AppBarProps {
   query: string
@@ -10,14 +20,14 @@ interface AppBarProps {
 
 export function AppBar({ query, onQuery, theme, onToggleTheme }: AppBarProps) {
   return (
-    <header className="appbar">
-      <div className="appbar-inner">
-        <a className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true" />
-          <span className="brand-word">linkit</span>
-        </a>
+    <Bar>
+      <Inner>
+        <Brand href="/">
+          <BrandMark aria-hidden="true" />
+          <BrandWord>linkit</BrandWord>
+        </Brand>
 
-        <label className="search">
+        <SearchBox>
           <Search size={17} strokeWidth={2} />
           <input
             type="search"
@@ -26,12 +36,11 @@ export function AppBar({ query, onQuery, theme, onToggleTheme }: AppBarProps) {
             placeholder="Search linkit"
             aria-label="Search links"
           />
-        </label>
+        </SearchBox>
 
-        <div className="appbar-actions">
-          <button
+        <Actions>
+          <IconButton
             type="button"
-            className="icon-btn"
             onClick={onToggleTheme}
             aria-label={theme === 'dark' ? 'Use light theme' : 'Use dark theme'}
           >
@@ -40,9 +49,9 @@ export function AppBar({ query, onQuery, theme, onToggleTheme }: AppBarProps) {
             ) : (
               <Moon size={18} strokeWidth={2} />
             )}
-          </button>
-        </div>
-      </div>
-    </header>
+          </IconButton>
+        </Actions>
+      </Inner>
+    </Bar>
   )
 }

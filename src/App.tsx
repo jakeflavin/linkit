@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Feed, Footer, Page } from './App.styled'
 import { AppBar } from './components/AppBar.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { SortBar } from './components/SortBar.tsx'
@@ -49,8 +50,8 @@ export default function App() {
     <>
       <AppBar query={query} onQuery={setQuery} theme={theme} onToggleTheme={toggle} />
 
-      <main className="page">
-        <div className="feed">
+      <Page>
+        <Feed>
           {!isConfigured && (
             <Banner>
               No database configured — copy <code>.env.example</code> to <code>.env</code> and fill
@@ -101,14 +102,14 @@ export default function App() {
               ))}
             </div>
           )}
-        </div>
+        </Feed>
 
         <Sidebar links={links} active={category} onPick={pickCategory} />
-      </main>
+      </Page>
 
-      <footer className="footer">
+      <Footer>
         linkit — anonymous, community-run, and only as good as what you post.
-      </footer>
+      </Footer>
     </>
   )
 }

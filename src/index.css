@@ -121,166 +121,7 @@ code {
 
 /* --- App bar ------------------------------------------------------------- */
 
-.appbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  height: var(--bar-height);
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-}
-
-.appbar-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  height: 100%;
-  /* Matches .page exactly, so the actions land on the sidebar's right edge. */
-  max-width: calc(var(--feed-width) + var(--rail-width) + var(--gutter) + 48px);
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/*
- * The brand and the actions each take exactly the room they need; the actions
- * are pushed to the bar's content edge, which is the edge the sidebar below
- * ends on. The search is centred independently of both (see .search), because
- * sharing a flex line with two sides of different widths either pulls it off
- * centre or squeezes the wordmark to nothing.
- */
-.brand,
-.appbar-actions {
-  flex: none;
-  display: flex;
-  align-items: center;
-}
-
-.brand {
-  gap: 8px;
-}
-
-.appbar-actions {
-  margin-left: auto;
-  justify-content: flex-end;
-  gap: 4px;
-}
-
-.brand-mark {
-  width: 22px;
-  height: 22px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--up);
-  position: relative;
-}
-
-/* The mark is the upvote arrow itself, punched out of the orange disc. */
-.brand-mark::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 7px solid #fff;
-  transform: translateY(-1px);
-}
-
-.brand-word {
-  font-family: var(--font-head);
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-
-/*
- * Taken out of the flex line and pinned to the middle of the bar, so it is
- * centred on the page at every width. The reserved 220px keeps it clear of
- * the brand and the actions as the bar narrows; below that it stops shrinking
- * and the mobile rules take over.
- */
-.search {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(560px, 100% - 220px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 12px;
-  background: var(--surface-2);
-  border: 1px solid transparent;
-  border-radius: var(--radius-pill);
-  color: var(--dim);
-}
-
-.search:focus-within {
-  background: var(--surface);
-  border-color: var(--accent);
-  color: var(--text);
-}
-
-.search input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  background: none;
-  outline: none;
-  color: var(--text);
-  font-size: 15px;
-}
-
-.search input::-webkit-search-cancel-button {
-  appearance: none;
-}
-
-.icon-btn {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  flex: none;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  color: var(--dim);
-}
-
-.icon-btn:hover {
-  background: var(--hover);
-  color: var(--text);
-}
-
 /* --- Page shell ---------------------------------------------------------- */
-
-.page {
-  display: grid;
-  grid-template-columns: minmax(0, var(--feed-width)) var(--rail-width);
-  gap: var(--gutter);
-  justify-content: center;
-  max-width: calc(var(--feed-width) + var(--rail-width) + var(--gutter) + 48px);
-  margin: 0 auto;
-  padding: 20px 24px 48px;
-}
-
-.feed {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-}
-
-.footer {
-  padding: 0 24px 32px;
-  text-align: center;
-  font-size: var(--font-meta);
-  color: var(--dim);
-}
 
 /* --- Cards --------------------------------------------------------------- */
 
@@ -434,46 +275,6 @@ code {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 18px;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-  font-size: var(--font-body);
-  font-weight: 700;
-}
-
-.btn.primary {
-  background: var(--accent);
-  color: #fff;
-}
-
-.btn.primary:hover:not(:disabled) {
-  background: var(--accent-hover);
-}
-
-.btn.primary:disabled {
-  opacity: 0.6;
-  cursor: progress;
-}
-
-.btn.ghost {
-  background: none;
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn.ghost:hover {
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-.spin {
-  animation: spin 0.9s linear infinite;
 }
 
 @keyframes spin {
@@ -1019,17 +820,6 @@ code {
 /* --- Narrow -------------------------------------------------------------- */
 
 @media (max-width: 1000px) {
-  .page {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: var(--feed-width);
-  }
-
-  /* The page narrows to the feed here, so the bar has to narrow with it or
-     the actions stop lining up with the column below. */
-  .appbar-inner {
-    max-width: var(--feed-width);
-  }
-
   /* The rail becomes a footer section rather than disappearing. */
   .sidebar {
     position: static;
@@ -1037,30 +827,6 @@ code {
 }
 
 @media (max-width: 640px) {
-  .page {
-    padding: 12px 8px 32px;
-  }
-
-  /* Same 8px gutter the page uses here, so the brand and the theme toggle
-     line up with the edges of the cards below them. */
-  .appbar-inner {
-    padding: 0 8px;
-    gap: 10px;
-  }
-
-  .brand-word {
-    display: none;
-  }
-
-  /* No room to centre anything on a phone — the search takes what is left. */
-  .search {
-    position: static;
-    transform: none;
-    width: auto;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
   .row-compact {
     grid-template-columns: 36px auto minmax(0, 1fr);
   }
@@ -1120,8 +886,7 @@ code {
   }
 
   /* iOS zooms any input under 16px on focus. */
-  .field-input,
-  .search input {
+  .field-input {
     font-size: 16px;
   }
 }

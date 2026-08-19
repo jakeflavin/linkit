@@ -1,4 +1,5 @@
 import { X } from 'lucide-react'
+import { IconButton } from './buttons.styled'
 import { categoryOf } from '@/data/categories.ts'
 
 interface CommunityHeaderProps {
@@ -21,14 +22,9 @@ export function CommunityHeader({ category, count, onClear }: CommunityHeaderPro
       <span className="community-header-count">
         {count} {count === 1 ? 'link' : 'links'}
       </span>
-      <button
-        type="button"
-        className="icon-btn"
-        onClick={onClear}
-        aria-label="Show every community"
-      >
+      <IconButton type="button" onClick={onClear} aria-label="Show every community">
         <X size={18} strokeWidth={2} />
-      </button>
+      </IconButton>
     </section>
   )
 }
