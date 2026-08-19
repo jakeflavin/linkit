@@ -1,6 +1,19 @@
 import { useRef, useState } from 'react'
 import { Button, Spinner } from './buttons.styled'
 import { Chip, ChipRow } from './chips.styled'
+import { Tile } from './Thumb.styled'
+import {
+  Field,
+  FieldError,
+  FieldLabel,
+  Form,
+  FormActions,
+  Input,
+  Preview,
+  PreviewNote,
+  PreviewSpinner,
+  Stub,
+} from './SubmitCard.styled'
 import { Loader2, Plus } from 'lucide-react'
 import { CATEGORIES, CATEGORY_IDS } from '@/data/categories.ts'
 import { normalizeUrl, validateDraft, type DraftErrors } from '@/lib/url.ts'
@@ -91,24 +104,19 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
 
   if (!open) {
     return (
-      <button
-        type="button"
-        className="compose-stub"
-        onClick={() => setOpen(true)}
-        disabled={disabled}
-      >
+      <Stub type="button" onClick={() => setOpen(true)} disabled={disabled}>
         <Plus size={18} strokeWidth={2} />
         Post a cool link
-      </button>
+      </Stub>
     )
   }
 
   return (
-    <form className="compose" onSubmit={submit} noValidate>
-      <label className="field">
-        <span className="field-label">Link</span>
-        <input
-          className={`field-input${errors.url ? ' is-bad' : ''}`}
+    <Form onSubmit={submit} noValidate>
+      <Field as="label">
+        <FieldLabel as="span">Link</FieldLabel>
+        <Input
+          $bad={Boolean(errors.url)}
           value={url}
           onChange={(event) => {
             setUrl(event.target.value)
@@ -118,37 +126,37 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
           placeholder="https://example.com/something-good"
           autoFocus
         />
-        {errors.url && <span className="field-error">{errors.url}</span>}
-      </label>
+        {errors.url && <FieldError>{errors.url}</FieldError>}
+      </Field>
 
       {(looking || image) && (
-        <div className="compose-preview">
+        <Preview>
           {looking ? (
-            <div className="thumb thumb-compact is-fallback">
-              <Spinner as={Loader2} className="thumb-glyph" size={20} strokeWidth={2} />
-            </div>
+            <Tile $fallback>
+              <PreviewSpinner as={Loader2} size={20} strokeWidth={2} />
+            </Tile>
           ) : (
             <Thumb image={image} domain={domainOf(normalizeUrl(url) ?? '')} mode="compact" />
           )}
-          <span className="compose-preview-note">
+          <PreviewNote>
             {looking ? 'Looking up the page…' : 'Preview image found'}
-          </span>
-        </div>
+          </PreviewNote>
+        </Preview>
       )}
 
-      <label className="field">
-        <span className="field-label">Title</span>
-        <input
-          className={`field-input${errors.title ? ' is-bad' : ''}`}
+      <Field as="label">
+        <FieldLabel as="span">Title</FieldLabel>
+        <Input
+          $bad={Boolean(errors.title)}
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           placeholder="What is it, in a line?"
         />
-        {errors.title && <span className="field-error">{errors.title}</span>}
-      </label>
+        {errors.title && <FieldError>{errors.title}</FieldError>}
+      </Field>
 
-      <fieldset className="field">
-        <legend className="field-label">Community</legend>
+      <Field>
+        <FieldLabel>Community</FieldLabel>
         <ChipRow>
           {CATEGORIES.map((option) => (
             <Chip
@@ -163,10 +171,10 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
             </Chip>
           ))}
         </ChipRow>
-        {errors.category && <span className="field-error">{errors.category}</span>}
-      </fieldset>
+        {errors.category && <FieldError>{errors.category}</FieldError>}
+      </Field>
 
-      <div className="compose-actions">
+      <FormActions>
         <Button type="button" $ghost onClick={reset}>
           Cancel
         </Button>
@@ -174,7 +182,7 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
           {sending && <Spinner as={Loader2} size={16} strokeWidth={2.5} />}
           {sending ? 'Posting' : 'Post'}
         </Button>
-      </div>
-    </form>
+      </FormActions>
+    </Form>
   )
 }

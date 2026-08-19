@@ -1,31 +1,37 @@
 import { Inbox } from 'lucide-react'
+import {
+  Banner as Warning,
+  NoticeHint,
+  NoticeTitle,
+  Panel,
+  Skeleton,
+  SkeletonRow,
+} from './Notice.styled'
 
 /** Empty and loading states for the feed, and the connection warning. */
 
 export function EmptyFeed({ message, hint }: { message: string; hint: string }) {
   return (
-    <div className="notice">
+    <Panel>
       <Inbox size={30} strokeWidth={1.5} />
-      <p className="notice-title">{message}</p>
-      <p className="notice-hint">{hint}</p>
-    </div>
+      <NoticeTitle>{message}</NoticeTitle>
+      <NoticeHint>{hint}</NoticeHint>
+    </Panel>
   )
 }
 
 export function FeedSkeleton() {
   return (
-    <div className="skeleton" aria-hidden="true">
+    <Skeleton aria-hidden="true">
       {[0, 1, 2, 3].map((index) => (
-        <div key={index} className="skeleton-row" />
+        <SkeletonRow key={index} />
       ))}
-    </div>
+    </Skeleton>
   )
 }
 
 export function Banner({ children }: { children: React.ReactNode }) {
   return (
-    <p className="banner" role="status">
-      {children}
-    </p>
+    <Warning role="status">{children}</Warning>
   )
 }
