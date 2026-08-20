@@ -27,13 +27,12 @@ export function SortBar({
   viewToggle,
 }: SortBarProps) {
   return (
-    <Bar role="tablist" aria-label="Sort links">
+    <Bar role="group" aria-label="Sort and filter links">
       {TABS.map(({ key, label, Icon }) => (
         <Tab
           key={key}
           type="button"
-          role="tab"
-          aria-selected={sort === key && !savedOnly}
+          aria-pressed={sort === key && !savedOnly}
           $active={sort === key && !savedOnly}
           onClick={() => onSort(key)}
         >

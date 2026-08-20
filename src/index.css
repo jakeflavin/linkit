@@ -45,9 +45,17 @@
   --line: #ccccce;
   --line-soft: #edeff1;
   --text: #1c1c1c;
-  --dim: #7c7c7c;
+  --dim: #6e6e6e;
   --hover: rgba(26, 26, 27, 0.06);
   --skeleton: #eceef0;
+
+  /* The brand trio as *text*: the arrows keep --up/--down/--accent, but a
+     score, the "on thin ice" warning, and a link borrow a darkened variant so
+     small text on the white card clears 4.5:1. The hue is the brand's; only
+     the lightness shifts, and only in the theme that needs it. */
+  --up-text: #c6390a;
+  --down-text: #4a5fcf;
+  --accent-text: #0071c2;
   color-scheme: light;
 }
 
@@ -62,6 +70,14 @@
   --dim: #818384;
   --hover: rgba(215, 218, 220, 0.08);
   --skeleton: #242425;
+
+  /* On the near-black rails the vote colours already clear 4.5:1 as text, so
+     the score and warning keep the true brand hues. The accent, though, only
+     reaches 3.9:1 on a dark card, so its text variant lightens — the way
+     Reddit lightens its own link blue in the dark. */
+  --up-text: #ff4500;
+  --down-text: #7193ff;
+  --accent-text: #4fa3e3;
   color-scheme: dark;
 }
 
@@ -117,4 +133,26 @@ code {
   background: var(--surface-2);
   border-radius: 2px;
   padding: 1px 4px;
+}
+
+/* The app has two animations — the loading skeleton's pulse and the compose
+   spinner. Both are honoured off when the reader asks for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Printed, the board is a reading list, so the page drops to white and the
+   interactive chrome is hidden by the components themselves (search, compose,
+   the sort bar, the theme toggle). What is left is the wordmark and the links. */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
 }

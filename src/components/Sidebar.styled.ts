@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Card, CardTitle } from './cards.styled'
+import { tallTarget } from '@/styles/touch'
 
 export const Rail = styled.aside`
   display: flex;
@@ -64,6 +65,8 @@ export const Community = styled.button<{ $active?: boolean }>`
   background: none;
   text-align: left;
 
+  ${tallTarget}
+
   &:hover {
     background: var(--hover);
   }
@@ -73,7 +76,7 @@ export const Community = styled.button<{ $active?: boolean }>`
     `
     && {
       background: var(--hover);
-      color: var(--accent);
+      color: var(--accent-text);
       font-weight: 700;
     }
   `}

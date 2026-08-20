@@ -65,6 +65,17 @@ commit.
 - A sweeper also deletes its own vote document, which a document delete would
   otherwise orphan.
 
+## Deep links
+
+- The sort, community, saved filter, and search live in the URL query
+  (`?sort=top&c=design&q=…&saved=1`), so a view is a link others can open and
+  the browser's Back and Forward step through the views visited. A community or
+  sort change is a new history entry; a search keystroke replaces the current
+  one so history stays walkable.
+- The wordmark is the board's home: it clears the filters back to Hot/all and
+  scrolls to the top, rather than leaving for the directory (the app opened in
+  its own tab).
+
 ## Chrome
 
 - Light and dark themes, defaulting to the OS preference and persisted after

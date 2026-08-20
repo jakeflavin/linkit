@@ -23,6 +23,10 @@ export const Stub = styled.button`
     opacity: 0.55;
     cursor: not-allowed;
   }
+
+  @media print {
+    display: none;
+  }
 `
 
 export const Form = styled.form`
@@ -31,6 +35,10 @@ export const Form = styled.form`
   flex-direction: column;
   gap: 14px;
   padding: 16px;
+
+  @media print {
+    display: none;
+  }
 `
 
 export const Field = styled.fieldset`

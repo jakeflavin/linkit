@@ -16,13 +16,16 @@ interface AppBarProps {
   onQuery: (value: string) => void
   theme: Theme
   onToggleTheme: () => void
+  onHome: () => void
 }
 
-export function AppBar({ query, onQuery, theme, onToggleTheme }: AppBarProps) {
+export function AppBar({ query, onQuery, theme, onToggleTheme, onHome }: AppBarProps) {
   return (
     <Bar>
       <Inner>
-        <Brand href="/">
+        {/* The wordmark is the board's home: it clears the filters rather than
+            leaving for the directory, which opened this app in its own tab. */}
+        <Brand type="button" onClick={onHome} aria-label="linkit — back to the top of the board">
           <BrandMark aria-hidden="true" />
           <BrandWord>linkit</BrandWord>
         </Brand>

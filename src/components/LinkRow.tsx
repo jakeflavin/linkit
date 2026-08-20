@@ -4,6 +4,7 @@ import {
   Actions,
   Body,
   Domain,
+  DomainIcon,
   HeroLink,
   Meta,
   Rank,
@@ -116,7 +117,7 @@ export function LinkRow({
         </Title>
 
         <Domain href={link.url} target="_blank" rel="noopener noreferrer nofollow">
-          <img src={faviconFor(link.domain)} alt="" width={16} height={16} loading="lazy" />
+          <DomainIcon aria-hidden="true" style={{ backgroundImage: `url("${faviconFor(link.domain)}")` }} />
           {link.domain}
           <SquareArrowOutUpRight size={11} strokeWidth={2} />
         </Domain>

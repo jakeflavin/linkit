@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { surface } from '@/styles/surface'
+import { tallTarget } from '@/styles/touch'
 
 export const Bar = styled.div`
   ${surface}
@@ -21,6 +22,11 @@ export const Bar = styled.div`
     gap: 4px;
     padding: 8px;
   }
+
+  /* Sorting and filtering are live-only; paper gets whatever is on screen. */
+  @media print {
+    display: none;
+  }
 `
 
 export const Tab = styled.button<{ $active?: boolean; $saved?: boolean }>`
@@ -35,6 +41,8 @@ export const Tab = styled.button<{ $active?: boolean; $saved?: boolean }>`
   color: var(--dim);
   font-weight: 700;
 
+  ${tallTarget}
+
   &:hover {
     background: var(--hover);
     color: var(--text);
@@ -45,7 +53,7 @@ export const Tab = styled.button<{ $active?: boolean; $saved?: boolean }>`
     `
     && {
       background: var(--hover);
-      color: var(--accent);
+      color: var(--accent-text);
     }
   `}
 

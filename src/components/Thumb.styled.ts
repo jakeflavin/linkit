@@ -1,11 +1,21 @@
 import styled from 'styled-components'
 
-/** The fallback favicon sits at its own size rather than filling the tile. */
-export const Favicon = styled.img`
+/**
+ * The fallback favicon sits at its own size, centred over the link glyph. It is
+ * a background image, not an <img>, so a domain whose favicon 404s reveals the
+ * glyph beneath without logging a console error.
+ */
+export const Favicon = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 24px;
   height: 24px;
-  object-fit: contain;
   border-radius: 3px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `
 
 /** Applied to the icon itself, so it also serves the compose form's spinner. */
@@ -33,6 +43,7 @@ export const Tile = styled.div<{ $card?: boolean; $fallback?: boolean }>`
   ${(props) =>
     props.$fallback &&
     `
+    position: relative;
     display: grid;
     place-items: center;
     color: var(--dim);

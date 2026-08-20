@@ -83,12 +83,14 @@ describe('rankLinks', () => {
     expect(rankLinks(links, 'hot', votes, NOW)[0]?.id).toBe('huge')
   })
 
-  it('excludes links older than the rising window', () => {
+  it('drops links older than the rising window entirely, not just sorts them last', () => {
     const links = [
       link({ id: 'stale', ups: 500, createdAt: NOW - 24 * HOUR }),
       link({ id: 'climbing', ups: 6, createdAt: NOW - HOUR }),
     ]
-    expect(rankLinks(links, 'rising', votes, NOW)[0]?.id).toBe('climbing')
+    expect(rankLinks(links, 'rising', votes, NOW).map((l) => l.id)).toEqual(['climbing'])
+    // The stale link still appears under every other sort.
+    expect(rankLinks(links, 'top', votes, NOW).map((l) => l.id)).toEqual(['stale', 'climbing'])
   })
 
   it('attaches this browser vote to each link', () => {

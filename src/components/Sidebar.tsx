@@ -24,6 +24,8 @@ export function Sidebar({ links, active, onPick }: SidebarProps) {
   const counts = new Map<string, number>()
   for (const link of links) counts.set(link.category, (counts.get(link.category) ?? 0) + 1)
 
+  const linkLabel = (n: number) => `${n} ${n === 1 ? 'link' : 'links'}`
+
   return (
     <Rail>
       <About>
@@ -49,7 +51,7 @@ export function Sidebar({ links, active, onPick }: SidebarProps) {
         <Community
           type="button"
           $active={active === null}
-          aria-label={`All communities, ${links.length} links`}
+          aria-label={`All communities, ${linkLabel(links.length)}`}
           onClick={() => onPick(null)}
         >
           <Dot $all aria-hidden="true" />
@@ -62,7 +64,7 @@ export function Sidebar({ links, active, onPick }: SidebarProps) {
             key={category.id}
             type="button"
             $active={active === category.id}
-            aria-label={`l/${category.label}, ${counts.get(category.id) ?? 0} links`}
+            aria-label={`l/${category.label}, ${linkLabel(counts.get(category.id) ?? 0)}`}
             onClick={() => onPick(category.id)}
           >
             <Dot style={{ background: category.color }} aria-hidden="true" />

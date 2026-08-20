@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { hitArea } from '@/styles/touch'
 
 export const Bar = styled.header`
   position: sticky;
@@ -41,11 +42,17 @@ export const Inner = styled.div`
  * sharing a flex line with two sides of different widths either pulls it off
  * centre or squeezes the wordmark to nothing.
  */
-export const Brand = styled.a`
+export const Brand = styled.button`
   flex: none;
   display: flex;
   align-items: center;
   gap: 8px;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+
+  ${hitArea}
 `
 
 export const Actions = styled.div`
@@ -55,6 +62,11 @@ export const Actions = styled.div`
   margin-left: auto;
   justify-content: flex-end;
   gap: 4px;
+
+  /* The theme toggle is chrome, not content. */
+  @media print {
+    display: none;
+  }
 `
 
 export const BrandMark = styled.span`
@@ -145,5 +157,10 @@ export const SearchBox = styled.label`
     input {
       font-size: 16px;
     }
+  }
+
+  /* Nothing to search on paper. */
+  @media print {
+    display: none;
   }
 `

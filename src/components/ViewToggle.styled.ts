@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { hitArea } from '@/styles/touch'
 
 export const Toggle = styled.div`
   display: flex;
@@ -26,6 +27,8 @@ export const ViewButton = styled.button<{ $active?: boolean }>`
   background: none;
   color: var(--dim);
 
+  ${hitArea}
+
   &:hover {
     background: var(--hover);
     color: var(--text);
@@ -36,7 +39,7 @@ export const ViewButton = styled.button<{ $active?: boolean }>`
     `
     && {
       background: var(--hover);
-      color: var(--accent);
+      color: var(--accent-text);
     }
   `}
 `

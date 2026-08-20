@@ -80,7 +80,11 @@ export function SubmitCard({ onSubmit, disabled }: SubmitCardProps) {
       setLooking(false)
       setImage(preview.image)
       // Never overwrite what the poster has typed.
-      if (preview.title) setTitle((current) => (current.trim() ? current : preview.title!))
+      if (preview.title) {
+        setTitle((current) => (current.trim() ? current : preview.title!))
+        // A title now exists, so any "give it a title" error is stale.
+        setErrors((previous) => ({ ...previous, title: undefined }))
+      }
     }, LOOKUP_DELAY_MS)
   }
 

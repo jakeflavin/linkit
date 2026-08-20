@@ -40,7 +40,13 @@ export function domainOf(url: string): string {
   }
 }
 
-/** Google's favicon service — no key, no CORS, and it degrades to a globe. */
+/**
+ * A domain's favicon — no key, no CORS, best mainstream coverage. Loaded as a
+ * background image (see Thumb/LinkRow), so a domain with no icon falls back to
+ * the link glyph rather than a broken image. A favicon-less domain still logs a
+ * network 404, which no third-party favicon service can avoid without a HEAD
+ * precheck; on a board of real links it is rare.
+ */
 export function faviconFor(domain: string): string {
   return `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(domain)}`
 }

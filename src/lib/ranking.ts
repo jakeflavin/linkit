@@ -59,6 +59,9 @@ export function rankLinks(
 ): RankedLink[] {
   const ranked: RankedLink[] = links
     .filter((link) => !isRemoved(link))
+    // Rising is "right now": a link past the window is excluded, not just ranked
+    // last, so the tab only ever shows links that are actually rising.
+    .filter((link) => sort !== 'rising' || risingRank(link, now) !== -Infinity)
     .map((link) => ({ ...link, score: scoreOf(link), vote: votes[link.id] ?? 0 }))
 
   const by: Record<SortKey, (a: Link, b: Link) => number> = {

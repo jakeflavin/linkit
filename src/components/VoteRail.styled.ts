@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { hitArea } from '@/styles/touch'
 
 export const Rail = styled.div`
   display: flex;
@@ -20,6 +21,8 @@ export const Arrow = styled.button<{ $down?: boolean; $cast?: boolean }>`
   background: none;
   color: var(--dim);
 
+  ${hitArea}
+
   /* The direction's colour appears on hover and stays once the vote is cast. */
   &:hover {
     background: var(--hover);
@@ -40,6 +43,6 @@ export const Score = styled.span<{ $vote?: number }>`
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 
-  ${(props) => props.$vote === 1 && 'color: var(--up);'}
-  ${(props) => props.$vote === -1 && 'color: var(--down);'}
+  ${(props) => props.$vote === 1 && 'color: var(--up-text);'}
+  ${(props) => props.$vote === -1 && 'color: var(--down-text);'}
 `

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { spinning } from '@/styles/spin'
+import { hitArea } from '@/styles/touch'
 
 export const Button = styled.button<{ $primary?: boolean; $ghost?: boolean }>`
   display: inline-flex;
@@ -26,8 +27,8 @@ export const Button = styled.button<{ $primary?: boolean; $ghost?: boolean }>`
     props.$ghost &&
     `
     background: none;
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
 
     &:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
   `}
@@ -53,6 +54,8 @@ export const IconButton = styled.button`
   border-radius: 50%;
   background: none;
   color: var(--dim);
+
+  ${hitArea}
 
   &:hover {
     background: var(--hover);

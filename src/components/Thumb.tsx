@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Favicon, Glyph, Tile } from './Thumb.styled'
 import { Link2 } from 'lucide-react'
 import { faviconFor } from '@/lib/url.ts'
@@ -40,18 +39,19 @@ export function Thumb({ image, domain, mode, onImageError }: ThumbProps) {
   )
 }
 
+/**
+ * The link glyph is always drawn; the favicon is laid over it as a background
+ * image, so a domain with no favicon simply reveals the glyph beneath — and a
+ * failed fetch is silent, where an <img> onError logged a console 404 for every
+ * favicon-less link (Google's service 404s rather than returning its globe).
+ */
 function FallbackMark({ domain }: { domain: string }) {
-  const [failed, setFailed] = useState(false)
-
-  if (!domain || failed) return <Glyph as={Link2} size={20} strokeWidth={2} />
-
   return (
-    <Favicon
-      src={faviconFor(domain)}
-      alt=""
-      loading="lazy"
-      decoding="async"
-      onError={() => setFailed(true)}
-    />
+    <>
+      <Glyph as={Link2} size={20} strokeWidth={2} />
+      {domain && (
+        <Favicon aria-hidden="true" style={{ backgroundImage: `url("${faviconFor(domain)}")` }} />
+      )}
+    </>
   )
 }

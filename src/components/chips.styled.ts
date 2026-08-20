@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { tallTarget } from '@/styles/touch'
 
 /**
  * One shape with two jobs: a Pill labels the community a link is in, a Chip is
@@ -39,6 +40,7 @@ export const Pill = styled.button`
 
 export const Chip = styled.button<{ $on?: boolean }>`
   ${pill}
+  ${tallTarget}
 
   ${(props) =>
     props.$on &&

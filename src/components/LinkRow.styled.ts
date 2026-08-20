@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { surface } from '@/styles/surface'
+import { hitArea, tallTarget } from '@/styles/touch'
 import { Pill } from './chips.styled'
 
 export const Rows = styled.div`
@@ -73,11 +74,12 @@ export const Meta = styled.div`
     padding: 0 8px;
     border-color: transparent;
     background: none;
+    ${hitArea}
   }
 `
 
 export const Warning = styled.span`
-  color: var(--up);
+  color: var(--up-text);
   font-weight: 600;
 `
 
@@ -87,7 +89,7 @@ export const Title = styled.h2`
   text-wrap: pretty;
 
   a:hover {
-    color: var(--accent);
+    color: var(--accent-text);
   }
 
   a:visited {
@@ -106,19 +108,30 @@ export const Domain = styled.a`
   align-self: flex-start;
   max-width: 100%;
   font-size: var(--font-meta);
-  color: var(--accent);
+  color: var(--accent-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  img {
-    border-radius: 2px;
-    flex: none;
-  }
+  ${tallTarget}
 
   &:hover {
     text-decoration: underline;
   }
+`
+
+/**
+ * The domain's favicon, as a background image rather than an <img>: a domain
+ * with no favicon then fails silently instead of logging a console 404.
+ */
+export const DomainIcon = styled.span`
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border-radius: 2px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `
 
 export const ThumbLink = styled.a`
@@ -155,10 +168,12 @@ export const Action = styled.button<{ $on?: boolean }>`
   font-size: var(--font-meta);
   font-weight: 700;
 
+  ${tallTarget}
+
   &:hover {
     background: var(--hover);
     color: var(--text);
   }
 
-  ${(props) => props.$on && '&& { color: var(--accent); }'}
+  ${(props) => props.$on && '&& { color: var(--accent-text); }'}
 `
